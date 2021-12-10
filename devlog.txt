@@ -3,5 +3,10 @@ Updated ReadMe
 Created Devlog
 Made wonderful teamflag
 
-alifA -- 2021-12-08 20:45
+alifA -- 2021-12-08 22:45
 Created Sitemap for Design Document
+
+alifA -- 2021-12-08 20:47
+Created Home Page, Login/Register Page, and Profile Page template representations.
+Removed unneeded link between Sqlite3 and HTML in component map.
+Clarified role of tokens column in Users database table
