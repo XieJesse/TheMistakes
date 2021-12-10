@@ -1,4 +1,24 @@
+TheMistakes - Alif Abdullah, Daniel Sooknanan, Jesse Xie, Raymond Yeung
+Softdev
+P01 -- ArRESTed Development
+
 alifA -- 2021-12-07 19:49
 Updated ReadMe
 Created Devlog
 Made wonderful teamflag
+
+alifA -- 2021-12-08 22:45
+Created Sitemap for Design Document
+
+jesseX -- 2021-12-08 22:45
+Added program components and framework explanation.
+Made database organization and apis section of design doc more clear.
+
+alifA -- 2021-12-09 20:47
+Created Home Page, Login/Register Page, and Profile Page template representations.
+Removed unneeded link between Sqlite3 and HTML in component map.
+Clarified role of tokens column in Users database table
+
+danielS -- 2021-12-09 21:22
+Created Leaderboard, Shop, Play, & Results template representations.
+Added general description of the application to design doc. 
