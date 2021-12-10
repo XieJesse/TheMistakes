@@ -1,0 +1,17 @@
+:root {
+    --dark-green: #233431;
+    --med-green: #436B53;
+    --light-green: #71997B;
+    --dark-gray: #272727;
+    --med-gray: #949494;
+    --light-gray: #d1d1d1;
+    --cream: #FFE7C5;
+    --white: #FFFFFF;
+    --red: #bb3232;
+    --font: 'Outfit', sans-serif;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+}
