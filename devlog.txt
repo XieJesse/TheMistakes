@@ -21,7 +21,10 @@ Clarified role of tokens column in Users database table
 
 danielS -- 2021-12-09 21:22
 Created Leaderboard, Shop, Play, & Results template representations.
-Added general description of the application to design doc. 
+Added general description of the application to design doc.
 
 danielS -- 2021-12-10 9:00
 Setup basic file hierarchy for static files & templates.
+
+raymondY -- 2021-12-10 9:22
+Implementing basic deck API functions
