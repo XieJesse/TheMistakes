@@ -1,5 +1,7 @@
 from flask import Flask, session, render_template, redirect
 import sqlite3
+import json
+import urllib
 
 app = Flask(__name__)
 
@@ -21,6 +23,18 @@ db.commit() #save changes to db
 @app.route("/")
 def hello_user():
     return "who ar you?"
+
+def hello_user():
+    return "who ar you?"
+
+def newDeck():
+    data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+    response = data.read()
+    response_info = json.loads(response)
+    deckid = response_info["deck_id"]
+
+def drawCards(id):
+    data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/' + id '/draw/?count=2')
 
 if __name__ == "__main__":
     app.debug = True
