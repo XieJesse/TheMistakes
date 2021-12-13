@@ -21,8 +21,28 @@ db.commit() #save changes to db
 
 # Homepage render function
 @app.route("/")
-def hello_user():
-    return "who arrr you?"
+def home():
+    return render_template("home.html")
+
+@app.route("/register", methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form('username')
+        password = request.form('password')
+        if username = "":
+            return render_template("register.html")
+        if password = "":
+            return render_template("register.html")
+        c.execute("SELECT * FROM users WHERE username = (?)", (username,))
+        existingUsername = c.fetchall()
+        if len(existingUsername) > 0:
+             return render_template("register.html")
+        command = "INSERT INTO TABLE users (?,?,0,0,0,?)",(username,password,https://englishclassviaskype.com/wp-content/uploads/2019/03/Common-mistakes-in-English-to-avoid.png)
+        c.execute(command)
+        db.commit()
+        home()
+    return render_template("register.html")
+
 
 def newDeck():
     # opens up API data (API data being a randomly made deck)
