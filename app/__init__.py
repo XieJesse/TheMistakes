@@ -43,19 +43,23 @@ def register():
         home()
     return render_template("register.html")
 
-
 def newDeck():
     # opens up API data (API data being a randomly made deck)
-    data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+    req = urllib.request.Request('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1', headers={'User-Agent': 'Mozilla/5.0'}) #change deck count for more decks of 52
+    data = urllib.request.urlopen(req)
     # reads API data into variable (comes in as JSON data)
     response = data.read()
     # converts JSON data to python dictionary
     response_info = json.loads(response)
     # sets a variable deckid equal to the deck_id of the drawn deck
     deckid = response_info["deck_id"]
+    return deckid
 
 def drawCards(id):
-    data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/' + id '/draw/?count=2')
+    data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/' + id + '/draw/?count=2')
+    response = data.read()
+    response_info = json.loads(response)
+    cards = response_info["cards"]
 
 if __name__ == "__main__":
     app.debug = True
