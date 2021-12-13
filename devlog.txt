@@ -28,3 +28,10 @@ Setup basic file hierarchy for static files & templates.
 
 raymondY -- 2021-12-10 9:22
 Implementing basic deck API functions
+
+danielS -- 2021-12-13 10:11
+Add basic login page layout.
+
+danielS -- 2021-12-13 12:00
+Update .gitignore to not track database files. Update __init__.py database structure
+and register logic. Update home() to render the login page when the user is not logged in.
