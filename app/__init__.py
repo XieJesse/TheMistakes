@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, redirect
+from flask import Flask, request, session, render_template, redirect
 import sqlite3
 import json
 import urllib
@@ -10,38 +10,64 @@ DB_FILE="highsteaks.db"
 db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
-create = "CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT, points INTEGER, wins INTEGER, losses INTEGER, activePFP TEXT) " # create users table
-c.execute((create))
-create = "CREATE TABLE IF NOT EXISTS items (name TEXT, imageUrl TEXT, owner TEXT) " # create items table
-c.execute((create))
-create = "CREATE TABLE IF NOT EXISTS market (name TEXT, imageUrl TEXT, price INTEGER) " # create market table
-c.execute((create))
+create_users = '''CREATE TABLE IF NOT EXISTS USERS(
+                USERNAME TEXT UNIQUE, 
+                PASSWORD TEXT,
+                POINTS INTEGER, 
+                WINS INTEGER, 
+                LOSSES INTEGER, 
+                PROFILE_PICTURE TEXT)'''
+create_items = '''CREATE TABLE IF NOT EXISTS items (
+                ITEM_NAME TEXT, 
+                IMAGE_URL TEXT, 
+                OWNER TEXT)'''
+create_market = '''CREATE TABLE IF NOT EXISTS market (
+                NAME TEXT, 
+                IMAGE_URL TEXT,
+                PRICE INTEGER)''' # create market table
+
+c.execute(create_users)
+c.execute(create_items)
+c.execute(create_market)
 
 db.commit() #save changes to db
 
+def is_logged_in():
+    return 'username' in session.keys()
+
 # Homepage render function
-@app.route("/")
+@app.route("/", methods=['GET', 'POST'])
 def home():
-    return render_template("home.html")
+    if is_logged_in():
+        return render_template("home.html")
+    else:
+        return render_template("login.html")
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form('username')
         password = request.form('password')
-        if username = "":
-            return render_template("register.html")
-        if password = "":
-            return render_template("register.html")
-        c.execute("SELECT * FROM users WHERE username = (?)", (username,))
-        existingUsername = c.fetchall()
-        if len(existingUsername) > 0:
-             return render_template("register.html")
-        command = "INSERT INTO TABLE users (?,?,0,0,0,?)",(username,password,https://englishclassviaskype.com/wp-content/uploads/2019/03/Common-mistakes-in-English-to-avoid.png)
-        c.execute(command)
+
+        # Check if the username / password is empty
+        if not username or not password: # Strings can be converted to booleans (Empty Strings = False)
+            return render_template("register.html", error = "Password / username must not be empty")
+
+        # Check if there are any occurences of the username in the database already
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (username,))
+        existing_username = c.fetchone()
+
+        if existing_username:
+             return render_template("register.html", error = "Username is already taken.")
+          
+        add_user = "INSERT INTO TABLE USERS (?,?,0,0,0,?)", (username, password, "")
+        c.execute(add_user)
         db.commit()
-        home()
-    return render_template("register.html")
+
+        session['username'] = username
+        return redirect("/")
+    else:
+        return render_template("register.html")
 
 # player_scores will be a list.
 # The first element of that list is the score of the human player.
