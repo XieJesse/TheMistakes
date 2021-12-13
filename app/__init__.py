@@ -11,18 +11,19 @@ db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, oth
 c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
 
 create_users = '''CREATE TABLE IF NOT EXISTS USERS(
-                USERNAME TEXT UNIQUE, 
+                USERNAME TEXT UNIQUE,
                 PASSWORD TEXT,
-                POINTS INTEGER, 
-                WINS INTEGER, 
-                LOSSES INTEGER, 
+                POINTS INTEGER,
+                WINS INTEGER,
+                LOSSES INTEGER,
                 PROFILE_PICTURE TEXT)'''
+                # will add on more variables for cosmetics
 create_items = '''CREATE TABLE IF NOT EXISTS items (
-                ITEM_NAME TEXT, 
-                IMAGE_URL TEXT, 
+                ITEM_NAME TEXT,
+                IMAGE_URL TEXT,
                 OWNER TEXT)'''
 create_market = '''CREATE TABLE IF NOT EXISTS market (
-                NAME TEXT, 
+                NAME TEXT,
                 IMAGE_URL TEXT,
                 PRICE INTEGER)''' # create market table
 
@@ -59,7 +60,7 @@ def register():
 
         if existing_username:
              return render_template("register.html", error = "Username is already taken.")
-          
+
         add_user = "INSERT INTO TABLE USERS (?,?,0,0,0,?)", (username, password, "")
         c.execute(add_user)
         db.commit()
@@ -68,6 +69,28 @@ def register():
         return redirect("/")
     else:
         return render_template("register.html")
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form('username')
+        password = request.form('password')
+
+        # Check if username is in the database
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (username,))
+        existing_username = c.fetchone()
+
+        if not existing_username:
+            return render_template("login.html", error = "The username does not exist.")
+
+        # Check if password matches password of inputted user
+        if existing_username[1] != password:
+            return render_template("login.html", error = "The password is incorrect")
+
+        session['username'] = username
+        return redirect("/")
+    else:
+        return render_template("login.html")
 
 # player_scores will be a list.
 # The first element of that list is the score of the human player.
