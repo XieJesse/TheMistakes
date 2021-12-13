@@ -4,14 +4,28 @@
     --light-green: #71997B;
     --dark-gray: #272727;
     --med-gray: #949494;
-    --light-gray: #d1d1d1;
+    --light-gray: #f1f1f1;
     --cream: #FFE7C5;
     --white: #FFFFFF;
     --red: #bb3232;
     --font: 'Outfit', sans-serif;
 }
 
+html {
+    width: 100%;
+    height: 100%;
+}
+
 body {
     padding: 0;
     margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
