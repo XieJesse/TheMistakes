@@ -22,15 +22,16 @@ db.commit() #save changes to db
 # Homepage render function
 @app.route("/")
 def hello_user():
-    return "who ar you?"
-
-def hello_user():
-    return "who ar you?"
+    return "who arrr you?"
 
 def newDeck():
+    # opens up API data (API data being a randomly made deck)
     data = urllib.request.urlopen('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+    # reads API data into variable (comes in as JSON data)
     response = data.read()
+    # converts JSON data to python dictionary
     response_info = json.loads(response)
+    # sets a variable deckid equal to the deck_id of the drawn deck
     deckid = response_info["deck_id"]
 
 def drawCards(id):
