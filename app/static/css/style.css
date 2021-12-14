@@ -30,3 +30,7 @@ body {
     left: 0;
     width: 100%;
 }
+
+.error {
+    color: var(--suit-red);
+}
