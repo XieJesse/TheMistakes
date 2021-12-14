@@ -36,6 +36,10 @@ db.commit() #save changes to db
 def is_logged_in():
     return 'username' in session.keys()
 
+@app.route("/play",methods=['GET', 'POST'])
+def play():
+    return render_template("play.html")
+
 # Homepage render function
 @app.route("/", methods=['GET', 'POST'])
 def home():

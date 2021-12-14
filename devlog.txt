@@ -48,6 +48,10 @@ Added login method.
 danielS -- 2021-12-13 22:24
 Update & stylize login template. Updated site colors.
 
+alifA -- 2021-12-14 09:10
+started blackjackWin function to handle win situations and to parse through player card values
+merged newDeck and drawCards to obtain a full deck of cards
+
 danielS -- 2021-12-14 9:12
 Edit application name (Changed from APHigh Mistakes to High Mistakes).
 Update login & register layout to prevent page overflow on error.
