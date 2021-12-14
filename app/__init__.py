@@ -146,7 +146,13 @@ def newDeck():
     deck_data = urllib.request.urlopen(deck_req)
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
-    return deck_dict
+    return deck_dict #Dictionary of lists of dictionary
+
+def shuffle():
+    req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/pile/<<pile_name>>/shuffle/', headers={'User-Agent': 'Mozilla/5.0'})
+    data = urllib.request.urlopen(req)
+    response = data.read()
+    deck_dict = json.loads(response)
 
 if __name__ == "__main__":
     app.debug = True
