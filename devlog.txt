@@ -47,3 +47,8 @@ Added login method.
 
 danielS -- 2021-12-13 22:24
 Update & stylize login template. Updated site colors.
+
+danielS -- 2021-12-14 9:12
+Edit application name (Changed from APHigh Mistakes to High Mistakes).
+Update login & register layout to prevent page overflow on error.
+Add register template.
