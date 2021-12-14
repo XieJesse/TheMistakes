@@ -23,16 +23,16 @@ danielS -- 2021-12-09 21:22
 Created Leaderboard, Shop, Play, & Results template representations.
 Added general description of the application to design doc.
 
-danielS -- 2021-12-10 9:00
+danielS -- 2021-12-10 09:00
 Setup basic file hierarchy for static files & templates.
 
-jesseX -- 2021-12-10 9:20
+jesseX -- 2021-12-10 09:20
 Created initial database.
 
-raymondY -- 2021-12-10 9:22
+raymondY -- 2021-12-10 09:22
 Implementing basic deck API functions
 
-raymondY -- 2021-12-13 9:24
+jesseX -- 2021-12-13 09:24
 Outlined initial register method.
 
 danielS -- 2021-12-13 10:11
@@ -42,5 +42,5 @@ danielS -- 2021-12-13 12:00
 Update .gitignore to not track database files. Update __init__.py database structure
 and register logic. Update home() to render the login page when the user is not logged in.
 
-jesseX -- 2021-12-13 6:57
+jesseX -- 2021-12-13 18:57
 Added login method.
