@@ -6,8 +6,9 @@
     height: 100%;
 }
 
-.image-container {
+.logo-container {
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     justify-content: center;
@@ -22,6 +23,11 @@
     font-size: 5rem;
     font-weight: 400;
     font-family: var(--font);
+}
+
+.slogan {
+    color: var(--med-gray);
+    font-weight: 400;
 }
 
 .highlight-logo {
@@ -79,7 +85,6 @@
     flex-direction: column;
     width: 100%;
     gap: 30px;
-    margin-bottom: 10%;
 }
 
 h1 {
