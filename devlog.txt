@@ -35,3 +35,6 @@ Add basic login page layout.
 danielS -- 2021-12-13 12:00
 Update .gitignore to not track database files. Update __init__.py database structure
 and register logic. Update home() to render the login page when the user is not logged in.
+
+danielS -- 2021-12-13 22:24
+Update & stylize login template. Updated site colors.

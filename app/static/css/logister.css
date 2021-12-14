@@ -7,24 +7,78 @@
 }
 
 .image-container {
+    display: flex;
     width: 100%;
     height: 100%;
-    background-color: var(--dark-green);
+    justify-content: center;
+    align-items: center;
+    background: var(--dark-gray);
+    background: linear-gradient(0deg, var(--black) 0%, var(--dark-gray) 100%);
 }
 
+#logo {
+    display: block;
+    color: var(--white);
+    font-size: 5rem;
+    font-weight: 400;
+    font-family: var(--font);
+}
+
+.highlight-logo {
+    color: var(--light-green)
+}
+
+/* Content Container (Right Side) */
+
 .content-container {
+    position: relative;
     display: flex;
     align-items: center;
     width: 100%;
     height: 100%;
     padding: 20%;
+    background-color: var(--white);
+}
+
+#heart-1 {
+    top: 20px;
+    left: 30px;
+}
+
+#heart-2 {
+    bottom: 20px;
+    right: 30px;
+    -webkit-transform: scaleY(-1);
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -ms-transform: scaleY(-1);
+    transform: scaleY(-1);
+}
+
+.card-heart-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-heart-container span {
+    display: block;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--suit-red);
+}
+
+.card-heart-container svg {
+    width: 25px;
+    fill: var(--suit-red);
 }
 
 .login-container {
     display: flex;
     flex-direction: column;
     width: 100%;
-    gap: 20px;
+    gap: 30px;
     margin-bottom: 10%;
 }
 
@@ -58,6 +112,7 @@ input {
 .credential-input {
     grid-area: input;
     padding: 10px 0px;
+    font-weight: 400;
     border: none;
     border-bottom: 2px solid var(--dark-green);
     transition: border-color .1s ease;
@@ -70,7 +125,7 @@ input {
 
 .credential-input:focus-visible ~ .credential-icon {
     fill: var(--light-green) !important;
-    transform: translateX(-6px);
+    transform: translateX(-5px);
 }
 
 .submit-button {
@@ -85,11 +140,16 @@ input {
 }
 
 .submit-button:hover {
-    background-color: var(--dark-green) !important;
+    background-color: var(--med-green) !important;
 }
 
 .alt-link {
     margin-left: 30px;
     text-decoration: none;
     color: var(--med-green);
+    transition: color .1s ease !important;
+}
+
+.alt-link:hover {
+    color: var(--light-green);
 }

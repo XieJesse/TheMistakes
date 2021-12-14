@@ -1,14 +1,14 @@
 :root {
     --black: #000000;
-    --dark-green: #233431;
-    --med-green: #436B53;
-    --light-green: #71997B;
-    --dark-gray: #272727;
+    --dark-green: #020e07;
+    --med-green: #2c6844;
+    --light-green: #45b678;
+    --dark-gray: #202020;
     --med-gray: #949494;
     --light-gray: #f1f1f1;
     --cream: #FFE7C5;
     --white: #FFFFFF;
-    --red: #bb3232;
+    --suit-red: #ee3838;
     --font: 'Outfit', sans-serif;
 }
 
