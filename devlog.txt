@@ -52,6 +52,11 @@ alifA -- 2021-12-14 09:10
 started blackjackWin function to handle win situations and to parse through player card values
 merged newDeck and drawCards to obtain a full deck of cards
 
+danielS -- 2021-12-14 9:12
+Edit application name (Changed from APHigh Mistakes to High Mistakes).
+Update login & register layout to prevent page overflow on error.
+Add register template.
+
 jesseX -- 2021-12-14 22:26
 Finished fixing register method with required parameters.
 Removed items table, items now stored in inventory file.
