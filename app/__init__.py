@@ -2,8 +2,10 @@ from flask import Flask, request, session, render_template, redirect
 import sqlite3
 import json
 import urllib
+from os import urandom
 
 app = Flask(__name__)
+app.secret_key = urandom(32)
 
 DB_FILE="highsteaks.db"
 
@@ -16,19 +18,17 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
                 POINTS INTEGER,
                 WINS INTEGER,
                 LOSSES INTEGER,
-                PROFILE_PICTURE TEXT)'''
-                # will add on more variables for cosmetics
-create_items = '''CREATE TABLE IF NOT EXISTS items (
-                ITEM_NAME TEXT,
-                IMAGE_URL TEXT,
-                OWNER TEXT)'''
+                PROFILE_PICTURE TEXT,
+                PROFILE_BACKGROUND TEXT,
+                CARD_COLOR TEXT,
+                INVENTORY TEXT)'''
+
 create_market = '''CREATE TABLE IF NOT EXISTS market (
                 NAME TEXT,
                 IMAGE_URL TEXT,
                 PRICE INTEGER)''' # create market table
 
 c.execute(create_users)
-c.execute(create_items)
 c.execute(create_market)
 
 db.commit() #save changes to db
@@ -52,8 +52,8 @@ def home():
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        username = request.form('username')
-        password = request.form('password')
+        username = request.form.get('username')
+        password = request.form.get('password')
 
         # Check if the username / password is empty
         if not username or not password: # Strings can be converted to booleans (Empty Strings = False)
@@ -66,9 +66,15 @@ def register():
         if existing_username:
              return render_template("register.html", error = "Username is already taken.")
 
-        add_user = "INSERT INTO TABLE USERS (?,?,0,0,0,?)", (username, password, "")
-        c.execute(add_user)
+        userInfo = [username,password,0,0,0,"","#000000","#FFFFFF",username+".txt"]
+        c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
         db.commit()
+
+        inventory = open("inventories/"+username+".txt","w")
+        inventory.write("card_color,#000000")
+        inventory.write("\n")
+        inventory.write("profile_background,#FFFFFF")
+        inventory.write("\n")
 
         session['username'] = username
         return redirect("/")
