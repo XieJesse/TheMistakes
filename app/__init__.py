@@ -1,40 +1,34 @@
-from flask import Flask, request, session, render_template, redirect
-import sqlite3
-import json
-import urllib
+from flask import Flask, Blueprint, request, session, render_template, redirect, g
+import os, sqlite3, json, urllib
+from db import init_db
 
-app = Flask(__name__)
+import auth, game, db
 
-DB_FILE="highsteaks.db"
+def create_app():
+    app = Flask(__name__)
+    # Configure app key & DB location
+    app.config.from_mapping(
+        SECRET_KEY = 'wumbo',
+        DATABASE = os.path.join(app.instance_path, db.DB_FILE)
+    )
 
-db = sqlite3.connect(DB_FILE, check_same_thread=False) #open if file exists, otherwise create
-c = db.cursor()               #facilitate db ops -- you will use cursor to trigger db events
+    # Ensure the DB location exists
+    try:
+        os.makedirs(app.instance_path)
+    except OSError: 
+        pass
 
-create_users = '''CREATE TABLE IF NOT EXISTS USERS(
-                USERNAME TEXT UNIQUE,
-                PASSWORD TEXT,
-                POINTS INTEGER,
-                WINS INTEGER,
-                LOSSES INTEGER,
-                PROFILE_PICTURE TEXT)'''
-                # will add on more variables for cosmetics
-create_items = '''CREATE TABLE IF NOT EXISTS items (
-                ITEM_NAME TEXT,
-                IMAGE_URL TEXT,
-                OWNER TEXT)'''
-create_market = '''CREATE TABLE IF NOT EXISTS market (
-                NAME TEXT,
-                IMAGE_URL TEXT,
-                PRICE INTEGER)''' # create market table
+    return app
 
-c.execute(create_users)
-c.execute(create_items)
-c.execute(create_market)
+app = create_app()
 
-db.commit() #save changes to db
+# Connect Authentication Blueprint
+app.register_blueprint(auth.bp)
 
-def is_logged_in():
-    return 'username' in session.keys()
+with app.app_context():
+    init_db()
+    d = db.get_db()
+    c = d.cursor()
 
 @app.route("/play",methods=['GET', 'POST'])
 def play():
@@ -43,116 +37,10 @@ def play():
 # Homepage render function
 @app.route("/", methods=['GET', 'POST'])
 def home():
-    print(newDeck())
-    if is_logged_in():
+    if auth.is_logged_in():
         return render_template("home.html")
     else:
-        return render_template("login.html")
-
-@app.route("/register", methods=['GET', 'POST'])
-def register():
-    if request.method == 'POST':
-        username = request.form('username')
-        password = request.form('password')
-
-        # Check if the username / password is empty
-        if not username or not password: # Strings can be converted to booleans (Empty Strings = False)
-            return render_template("register.html", error = "Password / username must not be empty")
-
-        # Check if there are any occurences of the username in the database already
-        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (username,))
-        existing_username = c.fetchone()
-
-        if existing_username:
-             return render_template("register.html", error = "Username is already taken.")
-
-        add_user = "INSERT INTO TABLE USERS (?,?,0,0,0,?)", (username, password, "")
-        c.execute(add_user)
-        db.commit()
-
-        session['username'] = username
-        return redirect("/")
-    else:
-        return render_template("register.html")
-
-@app.route("/login", methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form('username')
-        password = request.form('password')
-
-        # Check if username is in the database
-        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (username,))
-        existing_username = c.fetchone()
-
-        if not existing_username:
-            return render_template("login.html", error = "The username does not exist.")
-
-        # Check if password matches password of inputted user
-        if existing_username[1] != password:
-            return render_template("login.html", error = "The password is incorrect")
-
-        session['username'] = username
-        return redirect("/")
-    else:
-        return render_template("login.html")
-
-# player_scores will be a list.
-# The first element of that list is the score of the human player.
-# There will then be a variable number of cpu player scores.
-# The last score will be the score of the house.
-# There will always be a minimum of 2 scores.
-# Example: [20, 4, 17, 23, 21]
-# Returns list of tuples, where the first element of each tuple is the player number
-# (0 being human, len-1 being cpu, everything else being cpu)
-# and the second element will be the player's score. Everyone over 21 will be removed
-# from the final list. The player with the highest score will win. If two people tie
-# or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
-def blackjack_win(player_scores):
-    modified_player_scores = []
-    for i in range(len(player_scores)):
-        if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
-
-
-# player_scores will be a list.
-# The first element of that list is the score of the human player.
-# There will then be a variable number of cpu player scores.
-# The last score will be the score of the house.
-# There will always be a minimum of 2 scores.
-# Example: [20, 4, 17, 23, 21]
-# Returns list of tuples, where the first element of each tuple is the player number
-# (0 being human, len-1 being cpu, everything else being cpu)
-# and the second element will be the player's score. Everyone over 21 will be removed
-# from the final list. The player with the highest score will win. If two people tie
-# or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
-def blackjackWin(player_scores):
-    modified_player_scores = []
-    for i in range(len(player_scores)):
-        if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
-
-def newDeck():
-    # opens up API data (API data being a randomly made deck)
-    req = urllib.request.Request('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1', headers={'User-Agent': 'Mozilla/5.0'}) #change deck count for more decks of 52
-    data = urllib.request.urlopen(req)
-    # reads API data into variable (comes in as JSON data)
-    response = data.read()
-    # converts JSON data to python dictionary
-    response_info = json.loads(response)
-    # sets a variable deckid equal to the deck_id of the drawn deck
-    deckid = response_info["deck_id"]
-    deck_req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52', headers={'User-Agent': 'Mozilla/5.0'})
-    deck_data = urllib.request.urlopen(deck_req)
-    deck_response = deck_data.read()
-    deck_dict = json.loads(deck_response)
-    return deck_dict #Dictionary of lists of dictionary
-
-def shuffle():
-    req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/pile/<<pile_name>>/shuffle/', headers={'User-Agent': 'Mozilla/5.0'})
-    data = urllib.request.urlopen(req)
-    response = data.read()
-    deck_dict = json.loads(response)
+        return auth.login()
 
 if __name__ == "__main__":
     app.debug = True
