@@ -61,3 +61,6 @@ jesseX -- 2021-12-14 22:26
 Finished fixing register method with required parameters.
 Removed items table, items now stored in inventory file.
 Added writing initial items to inventory file after registration.
+
+raymondY -- 2021-12-15 08:57
+made a function to put back all cards into deck and shuffle
