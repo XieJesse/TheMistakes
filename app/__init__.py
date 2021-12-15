@@ -103,7 +103,6 @@ def login():
     else:
         return render_template("login.html")
 
-# player_scores will be a lis
 # player_scores will be a list.
 # The first element of that list is the score of the human player.
 # There will then be a variable number of cpu player scores.
@@ -115,46 +114,12 @@ def login():
 # and the second element will be the player's score. Everyone over 21 will be removed
 # from the final list. The player with the highest score will win. If two people tie
 # or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
-def blackjack_win(player_scores):
-    modified_player_scores = []
-    for i in range(len(player_scores)):
-        if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
 
-t.
-# The first element of that list is the score of the human player.
-# There will then be a variable number of cpu player scores.
-# The last score will be the score of the house.
-# There will always be a minimum of 2 scores.
-# Example: [20, 4, 17, 23, 21]
-# Returns list of tuples, where the first element of each tuple is the player number
-# (0 being human, len-1 being cpu, everything else being cpu)
-# and the second element will
-# player_scores will be a list.
-# The first element of that list is the score of the human player.
-# There will then be a variable number of cpu player scores.
-# The last score will be the score of the house.
-# There will always be a minimum of 2 scores.
-# Example: [20, 4, 17, 23, 21]
-# Returns list of tuples, where the first element of each tuple is the player number
-# (0 being human, len-1 being cpu, everything else being cpu)
-# and the second element will be the player's score. Everyone over 21 will be removed
-# from the final list. The player with the highest score will win. If two people tie
-# or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
-def blackjack_win(player_scores):
-    modified_player_scores = []
-    for i in range(len(player_scores)):
-        if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
-
- be the player's score. Everyone over 21 will be removed
-# from the final list. The player with the highest score will win. If two people tie
-# or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
 def blackjackWin(player_scores):
     modified_player_scores = []
     for i in range(len(player_scores)):
         if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
+            modified_player_scores.append((i, p# player_scores will be a lislayer_scores[i]))
 
 def newDeck():
     # opens up API data (API data being a randomly made deck)
