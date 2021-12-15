@@ -1,5 +1,5 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
-import sqlite3, json, urllib
+import os, sqlite3, json, urllib
 
 from db import get_db
 
@@ -54,8 +54,16 @@ def register():
              return render_template("register.html", error = "Username is already taken.")
 
         # Add user to database
-        c.execute("INSERT INTO USERS VALUES (?,?,0,0,0,?)", (username, password, ""))
+        userInfo = [username,password,0,0,0,"","#000000","#FFFFFF",username+".txt"]
+        c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
         d.commit()
+
+        inventory_path = "inventories/%s.txt" % username
+        with open(inventory_path, "w") as inventory:
+            inventory.write("card_color,#000000")
+            inventory.write("\n")
+            inventory.write("profile_background,#FFFFFF")
+            inventory.write("\n")
 
         session['username'] = username
         return redirect("/")

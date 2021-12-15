@@ -9,15 +9,15 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
                 POINTS INTEGER,
                 WINS INTEGER,
                 LOSSES INTEGER,
-                PROFILE_PICTURE TEXT)'''
-create_items = '''CREATE TABLE IF NOT EXISTS items (
-                ITEM_NAME TEXT,
-                IMAGE_URL TEXT,
-                OWNER TEXT)'''
+                PROFILE_PICTURE TEXT,
+                PROFILE_BACKGROUND TEXT,
+                CARD_COLOR TEXT,
+                INVENTORY TEXT)'''
+
 create_market = '''CREATE TABLE IF NOT EXISTS market (
                 NAME TEXT,
                 IMAGE_URL TEXT,
-                PRICE INTEGER)''' 
+                PRICE INTEGER)''' # create market table
 
 def get_db():
     if 'db' not in g:
@@ -29,6 +29,5 @@ def init_db():
     d = get_db()
     c = d.cursor()
     c.execute(create_users)
-    c.execute(create_items)
     c.execute(create_market)
     d.commit()

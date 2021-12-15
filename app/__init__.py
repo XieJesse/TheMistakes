@@ -4,11 +4,12 @@ from db import init_db
 
 import auth, game, db
 
+
 def create_app():
     app = Flask(__name__)
     # Configure app key & DB location
     app.config.from_mapping(
-        SECRET_KEY = 'wumbo',
+        SECRET_KEY = os.urandom(32),
         DATABASE = os.path.join(app.instance_path, db.DB_FILE)
     )
 

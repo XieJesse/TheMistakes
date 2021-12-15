@@ -29,11 +29,12 @@ def blackjack_win(player_scores):
 # and the second element will be the player's score. Everyone over 21 will be removed
 # from the final list. The player with the highest score will win. If two people tie
 # or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
+
 def blackjackWin(player_scores):
     modified_player_scores = []
-    for i in range(len(player_scores)):
-        if player_scores[i] < 22:
-            modified_player_scores.append((i, player_scores[i]))
+    # for i in range(len(player_scores)):
+    #     if player_scores[i] < 22:
+            # modified_player_scores.append((i, player_scores will be a lislayer_scores[i]))
 
 def newDeck():
     # opens up API data (API data being a randomly made deck)
@@ -49,6 +50,13 @@ def newDeck():
     deck_data = urllib.request.urlopen(deck_req)
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
+    session["deck"] = deck_dict["cards"] #Dictionary of lists of dictionary
+
+def drawCards():
+    deck_req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52', headers={'User-Agent': 'Mozilla/5.0'})
+    deck_data = urllib.request.urlopen(deck_req)
+    deck_response = deck_data.read()
+    deck_dict = json.loads(deck_response)
     return deck_dict #Dictionary of lists of dictionary
 
 def shuffle():
@@ -56,3 +64,8 @@ def shuffle():
     data = urllib.request.urlopen(req)
     response = data.read()
     deck_dict = json.loads(response)
+
+def returnCards():
+    req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + DECKID + '/return/', headers={'User-Agent': 'Mozilla/5.0'})
+    data = urllib.request.urlopen(req)
+    #returns all cards back to deck and shuffles
