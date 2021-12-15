@@ -131,6 +131,11 @@ def newDeck():
     response_info = json.loads(response)
     # sets a variable deckid equal to the deck_id of the drawn deck
     deckid = response_info["deck_id"]
+    deck_req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52', headers={'User-Agent': 'Mozilla/5.0'})
+    deck_data = urllib.request.urlopen(deck_req)
+    deck_response = deck_data.read()
+    deck_dict = json.loads(deck_response)
+    session["deck"] = deck_dict["cards"] #Dictionary of lists of dictionary
 
 def drawCards():
     deck_req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52', headers={'User-Agent': 'Mozilla/5.0'})
