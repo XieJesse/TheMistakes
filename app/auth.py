@@ -60,9 +60,9 @@ def register():
 
         inventory_path = "inventories/%s.txt" % username
         with open(inventory_path, "w") as inventory:
-            inventory.write("card_color,#000000")
+            inventory.write("card_color,black,#000000")
             inventory.write("\n")
-            inventory.write("profile_background,#FFFFFF")
+            inventory.write("profile_background,white,#FFFFFF")
             inventory.write("\n")
 
         session['username'] = username
