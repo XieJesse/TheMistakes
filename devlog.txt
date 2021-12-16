@@ -66,5 +66,8 @@ raymondY -- 2021-12-15 08:57
 made a function to put back all cards into deck and shuffle
 cleaning up the duplicate code.
 
-daniels -- 2021-12-15 09:59
-Restructure file hierarchy. Divided view functions based on related files. 
+danielS -- 2021-12-15 09:59
+Restructure file hierarchy. Divided view functions based on related files.
+
+jesseX -- 2021-12-15 22:18
+Added shop refresh method to erase and add items into the shop database table.
