@@ -75,3 +75,6 @@ Added shop refresh method to erase and add items into the shop database table.
 alifA -- 2021-12-16-09:07
 Created a session variable deck that holds the list of dictionaries of cards returned from newDeck
 Modified drawCards method in game.py to reduce API Calls and work with the session variable deck, which contains a list of dictionaries of cards
+
+alifA -- 2021-12-16-09:26
+Fixed hell from boiling over in game.py
