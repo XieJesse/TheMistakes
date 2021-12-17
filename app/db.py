@@ -14,10 +14,13 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
                 CARD_COLOR TEXT,
                 INVENTORY TEXT)'''
 
-create_market = '''CREATE TABLE IF NOT EXISTS market (
+create_shop = '''CREATE TABLE IF NOT EXISTS SHOP(
+                TYPE TEXT,
                 NAME TEXT,
+                HEX_URL TEXT,
                 IMAGE_URL TEXT,
-                PRICE INTEGER)''' # create market table
+                PRICE INTEGER,
+                DATE_UPDATED TEXT)''' # create market table
 
 def get_db():
     if 'db' not in g:
@@ -25,9 +28,9 @@ def get_db():
         g.db.row_factory = sqlite3.Row
     return g.db
 
-def init_db(): 
+def init_db():
     d = get_db()
     c = d.cursor()
     c.execute(create_users)
-    c.execute(create_market)
+    c.execute(create_shop)
     d.commit()

@@ -66,5 +66,19 @@ raymondY -- 2021-12-15 08:57
 made a function to put back all cards into deck and shuffle
 cleaning up the duplicate code.
 
-daniels -- 2021-12-15 09:59
-Restructure file hierarchy. Divided view functions based on related files. 
+danielS -- 2021-12-15 09:59
+Restructure file hierarchy. Divided view functions based on related files.
+
+jesseX -- 2021-12-15 22:18
+Added shop refresh method to erase and add items into the shop database table.
+
+alifA -- 2021-12-16-09:07
+Created a session variable deck that holds the list of dictionaries of cards returned from newDeck
+Modified drawCards method in game.py to reduce API Calls and work with the session variable deck, which contains a list of dictionaries of cards
+
+jesseX -- 2021-12-16-09:25
+Updated shop table to contain both name and value
+Added calling of color api with randomly generated hex value
+
+alifA -- 2021-12-16-09:26
+Fixed hell from boiling over in game.py

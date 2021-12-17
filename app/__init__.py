@@ -1,8 +1,12 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import os, sqlite3, json, urllib
 from db import init_db
+from datetime import date
+from shop import refresh_shop
 
-import auth, game, db
+today = date.today()
+
+import auth, game, db, shop
 
 
 def create_app():
@@ -16,7 +20,7 @@ def create_app():
     # Ensure the DB location exists
     try:
         os.makedirs(app.instance_path)
-    except OSError: 
+    except OSError:
         pass
 
     return app
@@ -42,6 +46,16 @@ def home():
         return render_template("home.html")
     else:
         return auth.login()
+
+@app.route("/shop", methods=['GET', 'POST'])
+def shop():
+    if auth.is_logged_in():
+        refresh_shop()
+        return render_template("shop.html")
+    else:
+        return auth.login()
+
+
 
 if __name__ == "__main__":
     app.debug = True
