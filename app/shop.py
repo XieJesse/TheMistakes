@@ -49,6 +49,7 @@ def randomColor():
     response_info = json.loads(response)
     # sets a variable deckid equal to the deck_id of the drawn deck
     color = response_info["name"]
+    HSL = response_info["hsl"]
     colorName = color['value']
-    colorHex = color['closest_named_hex']
-    return [colorName,colorHex]
+    colorHSL = HSL["h"]+"/"+HSL["s"]+"/"+HSL["l"]
+    return [colorName,colorHSL]
