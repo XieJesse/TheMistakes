@@ -18,7 +18,6 @@ create_shop = '''CREATE TABLE IF NOT EXISTS SHOP(
                 TYPE TEXT,
                 NAME TEXT,
                 HSL_URL TEXT,
-                IMAGE_URL TEXT,
                 PRICE INTEGER,
                 DATE_UPDATED TEXT)''' # create market table
 
