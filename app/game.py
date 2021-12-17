@@ -54,4 +54,24 @@ def drawCards(numCards):
 def returnCards():
     req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + DECKID + '/return/', headers={'User-Agent': 'Mozilla/5.0'})
     data = urllib.request.urlopen(req)
+    #new set of cards
+    deck_req = urllib.request.Request('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52', headers={'User-Agent': 'Mozilla/5.0'})
+    deck_data = urllib.request.urlopen(deck_req)
+    deck_response = deck_data.read()
+    deck_dict = json.loads(deck_response)
+    session["deck"] = deck_dict["cards"]
     #returns all cards back to deck and shuffles
+
+def scoreCards(cardsPlayed):
+    score = 0
+    faceCards = "K, Q, J"
+    for card in cardsPlayed:
+        if card[0] in faceCards:
+            score += 10
+        if card[0] == "A" and (score + 11) < 21:
+            score += 11
+        else:
+            score += 1
+        if card[0] not in faceCards:
+            score += card[0]
+    return score
