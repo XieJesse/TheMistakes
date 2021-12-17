@@ -14,12 +14,12 @@
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;600&display=swap" rel="stylesheet">
     </head>
     <body>
-        <nav class="nav-bar">
-            <span id="logo" class="nav-item">Stakes</span>
+        <nav class="navbar fixed-top">
+            <span id="logo" class="navbar-brand mb-0 h1">High Mistakes</span>
             <a class="nav-item" href="/">Home</a>
-            <a class="nav-item">Play</a>
-            <a class="nav-item">Leaderboard</a>
-            <a class="nav-item">Shop</a>
+            <a class="nav-item" href="/play">Play</a>
+            <a class="nav-item" href="/leaderboard">Leaderboard</a>
+            <a class="nav-item" href="/shop">Shop</a>
         </nav>
         {% block content %}{% endblock %}
     </body>
