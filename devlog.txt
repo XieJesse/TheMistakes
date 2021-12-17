@@ -76,5 +76,9 @@ alifA -- 2021-12-16-09:07
 Created a session variable deck that holds the list of dictionaries of cards returned from newDeck
 Modified drawCards method in game.py to reduce API Calls and work with the session variable deck, which contains a list of dictionaries of cards
 
+jesseX -- 2021-12-16-09:25
+Updated shop table to contain both name and value
+Added calling of color api with randomly generated hex value
+
 alifA -- 2021-12-16-09:26
 Fixed hell from boiling over in game.py
