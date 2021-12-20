@@ -51,6 +51,7 @@ def home():
 def shop():
     if auth.is_logged_in():
         refresh_shop()
+        print("--------")
         return render_template("shop.html")
     else:
         return auth.login()

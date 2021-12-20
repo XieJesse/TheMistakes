@@ -16,24 +16,25 @@ def refresh_shop():
     if not existing_item:
         # add if table is empty
         for i in range(0,2):
-            color = randomColor()
+            randColor = randomColor()
             # will generate random color based on day
-            itemInfo = ["card_color",color[0],color[1],"",random.randint(100,300),today.strftime("%m/%d/%y")]
+            itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
             print(itemInfo)
-            addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?,?)"
+            addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
             c.execute(addItem,itemInfo)
             d.commit()
 
     if existing_item:
         if existing_item[4] != today.strftime("%m/%d/%y"):
             # clear table and add if date does not match (table stays the same if date matches)
-            c.execute("DROP * FROM SHOP")
+            c.execute("DELETE FROM SHOP")
 
             for i in range(0,2):
+                randColor = randomColor()
                 #will generate random color based on day
-                itemInfo = ["card_color",color[0],color[1],"",random.randint(100,300),today.strftime("%m/%d/%y")]
+                itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
                 print(itemInfo)
-                addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?,?)"
+                addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
                 c.execute(addItem,itemInfo)
                 d.commit()
 
@@ -49,6 +50,7 @@ def randomColor():
     response_info = json.loads(response)
     # sets a variable deckid equal to the deck_id of the drawn deck
     color = response_info["name"]
+    HSL = response_info["hsl"]
     colorName = color['value']
-    colorHex = color['closest_named_hex']
-    return [colorName,colorHex]
+    colorHSL = str(HSL["h"])+"/"+str(HSL["s"])+"/"+str(HSL["l"])
+    return [colorName,colorHSL]
