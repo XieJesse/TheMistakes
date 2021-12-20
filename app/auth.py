@@ -38,7 +38,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        repassword = request.form['repassword']
+        repassword = request.form['re-password']
 
         d = get_db()
         c = d.cursor()
