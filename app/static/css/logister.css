@@ -94,10 +94,6 @@ h1 {
 
 /* Form Styling */
 
-input {
-    font-family: var(--font) !important;
-}
-
 .credential-container {
     display: grid;
     width: 100%;
