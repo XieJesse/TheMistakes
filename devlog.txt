@@ -92,3 +92,6 @@ Added a session variable to track the player (human and cpu) stats and house sta
 raymondY -- 2021-12-17 09:10
 added scoring function
 return cards now replaces session var for deck.
+
+alifA -- 2021-12-20 09:19
+Added checking of usernames and passwords for forbidden characters, and matching password and re-entered passwords
