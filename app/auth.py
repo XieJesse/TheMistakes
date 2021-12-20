@@ -38,6 +38,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        repassword = request.form['repassword']
 
         d = get_db()
         c = d.cursor()
@@ -52,6 +53,12 @@ def register():
 
         if existing_username:
              return render_template("register.html", error = "Username is already taken.")
+        if not username.isalnum():
+            return render_template("register.html", error = "Username can only contain numbers and letters")
+        if not password.isalnum():
+            return render_template("register.html", error = "Password can only contain numbers and letters")
+        if password == repassword:
+            return render_template("register.html", error = "Password and re-entered password are already taken")
 
         # Add user to database
         userInfo = [username,password,0,0,0,"","#000000","#FFFFFF",username+".txt"]
