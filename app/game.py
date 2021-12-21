@@ -1,5 +1,31 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
-import sqlite3, json, urllib
+import sqlite3, json, urllib, random
+
+bp = Blueprint('game', __name__)
+
+@bp.route("/setup", methods=['GET','POST'])
+def initialSetup():
+    newGame()
+
+@bp.route("/blackjack"):
+def game():
+    try:
+        # Game code
+    except:
+        return render_template("home.html")
+
+def cpuBehavior(players):
+    for i in players:
+        if i[1] > 21:
+            i[2] == "Bust"
+        else if i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
+            i[2] = "Stay"
+        else if i[1] < 17 and i[2] == "Hit":
+            drawnCard = drawCards(0)[0]
+            i[0] += drawnCard["code"][0];
+            i[1] += scoreCards([drawnCard])
+
+
 
 # player_scores will be a list.
 # The first element of that list is the score of the human player.
@@ -48,7 +74,7 @@ def newDeck():
     deck_data = urllib.request.urlopen(deck_req)
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
-    session["deck"] = deck_dict["cards"] #Dictionary of lists of dictionary
+    session["deck"] = deck_dict["cards"] #List of dictionaries
 
 def drawCards(numCards):
     cards = []

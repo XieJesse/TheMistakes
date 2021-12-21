@@ -107,8 +107,12 @@ jesseX -- 2021-12-20 09:26
 Added outline for buying items for shop, worked on interactions between databases and forms
 
 danielS -- 2021-12-20 13:17
-Add basic setup page layout. 
+Add basic setup page layout.
 Add card styling & container positioning / layout.
 
 jesseX -- 2021-12-20 23:09
 Updated design doc - fixed typos and updated database parameters
+
+alifA -- 2021-12-20 09:22
+Initial versions of functions to setup initial game conditions
+Creation of CPU behavior function.
