@@ -23,9 +23,9 @@ def blackjack_win(player_scores):
 # Example tuple: ("K5A", 17, Hit/Bust/Stay)
 def newGame(playerCount):
     # Session variable players tracks human and cpu player stats
-    session['players'] = [("",0,"") for i in range(playerCount)]
+    session['players'] = [["",0,""] for i in range(playerCount)]
     # Session variable house tracks house player
-    session['house'] = [("",0,"")]
+    session['house'] = [["",0,""]]
 
 def checkError(url):
     try:
