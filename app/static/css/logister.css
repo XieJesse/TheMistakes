@@ -1,3 +1,7 @@
+body {
+    padding: 0;
+}
+
 .layout-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
@@ -23,6 +27,7 @@
     font-size: 5rem;
     font-weight: 400;
     font-family: var(--font);
+    margin-right: 0;
 }
 
 .slogan {

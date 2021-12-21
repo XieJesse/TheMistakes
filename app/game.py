@@ -7,20 +7,20 @@ bp = Blueprint('game', __name__)
 def initialSetup():
     newGame()
 
-@bp.route("/blackjack"):
+@bp.route("/blackjack")
 def game():
-    try:
+    # try:
         # Game code
-    except:
+    # except:
         return render_template("home.html")
 
 def cpuBehavior(players):
     for i in players:
         if i[1] > 21:
             i[2] == "Bust"
-        else if i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
+        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
             i[2] = "Stay"
-        else if i[1] < 17 and i[2] == "Hit":
+        elif i[1] < 17 and i[2] == "Hit":
             drawnCard = drawCards(0)[0]
             i[0] += drawnCard["code"][0];
             i[1] += scoreCards([drawnCard])
