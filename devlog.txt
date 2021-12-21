@@ -116,3 +116,10 @@ Updated design doc - fixed typos and updated database parameters
 alifA -- 2021-12-20 09:22
 Initial versions of functions to setup initial game conditions
 Creation of CPU behavior function.
+
+danielS -- 2021-12-21 16:18
+Add script.js for card cosmetic purposes. Main color adjusts 
+the color of suits that are normally black, alt color adjusts
+the color of suits that are normally red. Card base color is
+changed from light to dark (or vice versa) based on the lightness
+of the card color to ensure visbility.

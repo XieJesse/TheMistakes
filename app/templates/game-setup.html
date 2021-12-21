@@ -45,7 +45,7 @@
             <div class="palette">
                 {% for color in colors %}
                 <label class="swatch" style="background-color: rgb({{ color }})">
-                    <input type="radio" name="mainColor" value="{{ color }}">
+                    <input type="radio" name="mainColor" value="{{ color }}" required>
                     <div class="selected"></div>
                 </label>
                 {% endfor %}
@@ -54,7 +54,7 @@
             <div class="palette" id="alt-color-list">
                 {% for color in colors %}
                 <label class="swatch" style="background-color: rgb({{ color }})">
-                    <input type="radio" name="altColor" value="{{ color }}">
+                    <input type="radio" name="altColor" value="{{ color }}" required>
                     <div class="selected"></div>
                 </label>
                 {% endfor %}
