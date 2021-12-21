@@ -23,7 +23,7 @@
                 </svg>
             </div>
         </div>
-        <div class="card big">
+        <div class="card big main-color">
             <div class="suit-container suit-top">
                 <span>3</span>
                 <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-suit-club-fill" viewBox="0 0 16 16">
@@ -40,12 +40,24 @@
     </div>
     <div class="setup-container">
         <h1>Setup</h1>
-        <form class="setup-container" action="/setup" method="POST">
-            <div id="main-color">
-
+        <form name="setup" class="setup-container" action="/setup" method="POST">
+            <span>Main Color:</span>
+            <div class="palette">
+                {% for color in colors %}
+                <label class="swatch" style="background-color: rgb({{ color }})">
+                    <input type="radio" name="mainColor" value="{{ color }}">
+                    <div class="selected"></div>
+                </label>
+                {% endfor %}
             </div>
-            <div id="alt-color">
-                
+            <span>Alternate Color:</span>
+            <div class="palette" id="alt-color-list">
+                {% for color in colors %}
+                <label class="swatch" style="background-color: rgb({{ color }})">
+                    <input type="radio" name="altColor" value="{{ color }}">
+                    <div class="selected"></div>
+                </label>
+                {% endfor %}
             </div>
             <label for="cpu_number">Number of CPUs (1-4)</label>
             <input id="cpu_number" type="number" name="cpu_number" min="1" max="4" value="1" placeholder="1" required>

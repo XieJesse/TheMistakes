@@ -44,6 +44,7 @@
     width: var(--card-width);
     height: var(--card-height);
     border-radius: 20px;
+    transition: background-color .15s ease-out;
 }
 
 .big {
@@ -61,6 +62,7 @@
 
 .dark {
     background-color: var(--card-dark) !important;
+    border: 1px solid var(--med-gray);
 }
 
 .alt-color {
@@ -99,10 +101,12 @@
 
 .suit-container > svg {
     width: var(--suit-size);
+    transition: fill .15s ease-out;
 }
 
 .suit-container > span {
     display: block;
     font-weight: 700;
     font-size: var(--suit-size);
+    transition: color .15s ease-out;
 }
