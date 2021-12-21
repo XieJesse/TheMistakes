@@ -123,3 +123,7 @@ the color of suits that are normally black, alt color adjusts
 the color of suits that are normally red. Card base color is
 changed from light to dark (or vice versa) based on the lightness
 of the card color to ensure visbility.
+
+danielS -- 2021-12-21 16:37
+Fix logister logo layout where the logo would be pushed left 
+by an auto margin. Fixed padding on body for logister pages.
