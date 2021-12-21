@@ -93,12 +93,22 @@ raymondY -- 2021-12-17 09:10
 added scoring function
 return cards now replaces session var for deck.
 
+jesseX -- 2021-12-17 09:27
+Updated inventory and shops to contain hsl values instead of hex
+Updated databases and variable names accordingly
+
 alifA -- 2021-12-20 09:19
 Added checking of usernames and passwords for forbidden characters, and matching password and re-entered passwords
 
 raymondY -- 2021-12-20 09:22
 added api error handling
 
+jesseX -- 2021-12-20 09:26
+Added outline for buying items for shop, worked on interactions between databases and forms
+
 danielS -- 2021-12-20 13:17
 Add basic setup page layout. 
 Add card styling & container positioning / layout.
+
+jesseX -- 2021-12-20 23:09
+Updated design doc - fixed typos and updated database parameters
