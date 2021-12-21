@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Setup{% endblock %}
+
+{% block expand_head %}
+<link rel="stylesheet" href="../static/css/card.css">
+<link rel="stylesheet" href="../static/css/setup.css">
+{% endblock %}
+
+{% block content %}
+<div class="layout-container">
+    <div class="card-container">
+        <div class="card big alt-color">
+            <div class="suit-container suit-top">
+                <span>A</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                </svg>
+            </div>
+            <div class="suit-container suit-bottom">
+                <span>A</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+                    <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+                </svg>
+            </div>
+        </div>
+        <div class="card big">
+            <div class="suit-container suit-top">
+                <span>3</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-suit-club-fill" viewBox="0 0 16 16">
+                    <path d="M11.5 12.5a3.493 3.493 0 0 1-2.684-1.254 19.92 19.92 0 0 0 1.582 2.907c.231.35-.02.847-.438.847H6.04c-.419 0-.67-.497-.438-.847a19.919 19.919 0 0 0 1.582-2.907 3.5 3.5 0 1 1-2.538-5.743 3.5 3.5 0 1 1 6.708 0A3.5 3.5 0 1 1 11.5 12.5z"/>
+                </svg>
+            </div>
+            <div class="suit-container suit-bottom">
+                <span>3</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="bi bi-suit-club-fill" viewBox="0 0 16 16">
+                    <path d="M11.5 12.5a3.493 3.493 0 0 1-2.684-1.254 19.92 19.92 0 0 0 1.582 2.907c.231.35-.02.847-.438.847H6.04c-.419 0-.67-.497-.438-.847a19.919 19.919 0 0 0 1.582-2.907 3.5 3.5 0 1 1-2.538-5.743 3.5 3.5 0 1 1 6.708 0A3.5 3.5 0 1 1 11.5 12.5z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div class="setup-container">
+        <h1>Setup</h1>
+        <form class="setup-container" action="/setup" method="POST">
+            <div id="main-color">
+
+            </div>
+            <div id="alt-color">
+                
+            </div>
+            <label for="cpu_number">Number of CPUs (1-4)</label>
+            <input id="cpu_number" type="number" name="cpu_number" min="1" max="4" value="1" placeholder="1" required>
+            <button type="submit" class="btn submit-button">Start</button>
+        </form>
+    </div>
+</div>
+<script src="../static/js/script.js"></script>
+{% endblock %}

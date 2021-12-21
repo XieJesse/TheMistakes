@@ -98,3 +98,7 @@ Added checking of usernames and passwords for forbidden characters, and matching
 
 raymondY -- 2021-12-20 09:22
 added api error handling
+
+danielS -- 2021-12-20 13:17
+Add basic setup page layout. 
+Add card styling & container positioning / layout.

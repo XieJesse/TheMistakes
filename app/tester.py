@@ -7,8 +7,8 @@ app = Flask(__name__)
 
 # Misc Render Function for testing templating
 @app.route("/", methods=['GET', 'POST'])
-def home():
-    return render_template("register.html", error = "An error has occured")
+def test():
+    return render_template("game-setup.html")
 
 if __name__ == "__main__":
     app.debug = True
