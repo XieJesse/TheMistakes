@@ -54,5 +54,5 @@ def randomColor():
     # set variable equal to rgb values
     colorName = color['value']
     # set variable for color name
-    colorRGB = str(RGB["r"])+"/"+str(RGB["g"])+"/"+str(RGB["b"])
+    colorRGB = str(RGB["r"])+","+str(RGB["g"])+","+str(RGB["b"])
     return [colorName,colorRGB]

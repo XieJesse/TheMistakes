@@ -75,7 +75,7 @@ def shop():
             d.commit()
             inventory_path = "inventories/%s.txt" % session['username']
             with open(inventory_path, "a") as inventory:
-                inventory.write(""+itemData[0]+","+itemData[1]+","+itemData[2])
+                inventory.write(""+itemData[0]+"/"+itemData[1]+"/"+itemData[2])
                 inventory.write("\n")
 
 
