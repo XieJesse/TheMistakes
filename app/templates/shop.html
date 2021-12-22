@@ -5,5 +5,18 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="layout-container">
+  {% for item in items}
+  {% rgb = {{ item[2] }}.split('/') %}
+  <p style = "color: rgb({{ rgb[0] }},{{ rgb[1] }},{{ rgb[2] }})">
+    Type: item[0]
+    Name: item[1]
+    Price: item[3]
+    <form action="/shop" method="POST">
+      <input type="hidden" name="itemName" value="{{ item[2] }}">
+      <input type="submit" value="Purchase">
+    </form>
+    <br></br>
+  {% endfor %}
+</div>
 {% endblock %}

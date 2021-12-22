@@ -17,7 +17,7 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
 create_shop = '''CREATE TABLE IF NOT EXISTS SHOP(
                 TYPE TEXT,
                 NAME TEXT,
-                HSL_URL TEXT,
+                RGB_URL TEXT,
                 PRICE INTEGER,
                 DATE_UPDATED TEXT)''' # create market table
 
