@@ -124,9 +124,10 @@ def scoreCards(cardsPlayed):
 def reward():
     d = db.get_db()
     c = d.cursor()
+    payout = 50 #can change if needed (maybe make it random)
+    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+    userPoints = c.fetchone()
     if blackjack_win == "blackjack":
-        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-        userPoints = c.fetchone()
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+, session['username']))
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ (1.5 * payout), session['username']))
     else:
-        
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ payout, session['username']))
