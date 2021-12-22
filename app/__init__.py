@@ -59,10 +59,12 @@ def shop():
             c = d.cursor()
 
             purchasedItem = request.form['itemName']
+            print(purchasedItem)
             c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
             userPoints = c.fetchone()
             c.execute("SELECT * FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
             itemData = c.fetchone()
+            print(itemData)
             #check and subtract points
             if userPoints[2] < itemData[3]:
                 return render_template("shop.html",error="You're broke")
@@ -70,8 +72,9 @@ def shop():
             #remove item from market
             c.execute("DELETE FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
             #update inventory
+            d.commit()
             inventory_path = "inventories/%s.txt" % session['username']
-            with open(inventory_path, "w") as inventory:
+            with open(inventory_path, "a") as inventory:
                 inventory.write(""+itemData[0]+","+itemData[1]+","+itemData[2])
                 inventory.write("\n")
 

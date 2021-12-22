@@ -61,7 +61,7 @@ def register():
             return render_template("register.html", error = "Password and re-entered password do not match")
 
         # Add user to database
-        userInfo = [username,password,0,0,0,"","#000000","#FFFFFF",username+".txt"]
+        userInfo = [username,password,10000,0,0,"","#000000","#FFFFFF",username+".txt"]
         c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
         d.commit()
 
