@@ -21,7 +21,7 @@ def cpuBehavior(players):
         elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
             i[2] = "Stay"
         elif i[1] < 17 and i[2] == "Hit":
-            drawnCard = drawCards(0)[0]
+            drawnCard = drawCards(1)[0]
             i[0] += drawnCard["code"][0];
             i[1] += scoreCards([drawnCard])
 
