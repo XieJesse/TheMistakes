@@ -53,6 +53,8 @@ def blackjack_win(player_scores):
     for i in range(len(player_scores)):
         if player_scores[i] < 22:
             modified_player_scores.append((i, player_scores[i]))
+        if player_scores[i] == 21:
+            return "blackjack"
 
 # Creates a session variable that is a list of tuples
 # Here is the tuple diagram: (Cards, Card Value, Status)
@@ -118,3 +120,13 @@ def scoreCards(cardsPlayed):
         if card[0] not in faceCards:
             score += card[0]
     return score
+
+def reward():
+    d = db.get_db()
+    c = d.cursor()
+    if blackjack_win == "blackjack":
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userPoints = c.fetchone()
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+, session['username']))
+    else:
+        
