@@ -30,6 +30,9 @@ app = create_app()
 # Connect Authentication Blueprint
 app.register_blueprint(auth.bp)
 
+# Connect Game Blueprint
+app.register_blueprint(game.bp)
+
 with app.app_context():
     init_db()
     d = db.get_db()
