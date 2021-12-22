@@ -37,7 +37,7 @@ with app.app_context():
 
 @app.route("/play",methods=['GET', 'POST'])
 def play():
-    return render_template("play.html")
+    return render_template("setup.html")
 
 # Homepage render function
 @app.route("/", methods=['GET', 'POST'])
