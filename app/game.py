@@ -15,15 +15,25 @@ def game():
         return render_template("home.html")
 
 def cpuBehavior(players):
-    for i in players:
-        if i[1] > 21:
-            i[2] == "Bust"
-        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
+    for i in players[1:]:
+        if i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
             i[2] = "Stay"
         elif i[1] < 17 and i[2] == "Hit":
             drawnCard = drawCards(1)[0]
-            i[0] += drawnCard["code"][0];
+            i[0] += drawnCard["code"];
             i[1] += scoreCards([drawnCard])
+            if i[1] > 21:
+                i[2] == "Bust"
+
+def stay():
+    players[0][2] = "Stay"
+
+def hit():
+    drawnCard = drawCards(1)[0]
+    players[0][0] += drawnCard["code"]
+    players[0][1] += scoreCards([drawnCard])
+    if player[0][1] > 21:
+        player[0][2] = "Bust"
 
 
 
@@ -46,7 +56,7 @@ def blackjack_win(player_scores):
 
 # Creates a session variable that is a list of tuples
 # Here is the tuple diagram: (Cards, Card Value, Status)
-# Example tuple: ("K5A", 17, Hit/Bust/Stay)
+# Example tuple: ("KH5DAC", 17, Hit/Bust/Stay)
 def newGame(playerCount):
     # Session variable players tracks human and cpu player stats
     session['players'] = [["",0,""] for i in range(playerCount)]

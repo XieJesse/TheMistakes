@@ -118,12 +118,15 @@ Initial versions of functions to setup initial game conditions
 Creation of CPU behavior function.
 
 danielS -- 2021-12-21 16:18
-Add script.js for card cosmetic purposes. Main color adjusts 
+Add script.js for card cosmetic purposes. Main color adjusts
 the color of suits that are normally black, alt color adjusts
 the color of suits that are normally red. Card base color is
 changed from light to dark (or vice versa) based on the lightness
 of the card color to ensure visbility.
 
 danielS -- 2021-12-21 16:37
-Fix logister logo layout where the logo would be pushed left 
+Fix logister logo layout where the logo would be pushed left
 by an auto margin. Fixed padding on body for logister pages.
+
+alifA -- 2021-12-20 09:25
+Hit and stay functions added for human player
