@@ -130,3 +130,6 @@ by an auto margin. Fixed padding on body for logister pages.
 
 alifA -- 2021-12-20 09:25
 Hit and stay functions added for human player
+
+raymondY -- 2021-12-22- 15:02
+started function to reward player points when they win.
