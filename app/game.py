@@ -5,7 +5,9 @@ bp = Blueprint('game', __name__)
 
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
-    newGame()
+    if request.method == 'POST':
+        players = int(request.form['cpu_number']) + 1
+    newGame(players)
 
 @bp.route("/blackjack")
 def game():
