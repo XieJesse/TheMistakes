@@ -7,9 +7,14 @@
 {% block content %}
 {{ error }}
 <div class="layout-container">
+  <br></br>
+  <h3> Balance: {{ balance }} </h3>
+  <br></br>
   {% for item in items %}
-  {% set rgb = item[2].split('/') %}
-  <p style = "color: rgb({{ rgb[0] }},{{ rgb[1] }},{{ rgb[2] }})">
+  {% if item[0] == 'card_color' %}
+    {% set rgb = item[2].split(',') %}
+    <p style = "color: rgb({{ rgb[0] }},{{ rgb[1] }},{{ rgb[2] }})">
+  {% endif %}
     Type: {{ item[0] }}
     <br></br>
     Name: {{ item[1] }}

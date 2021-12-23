@@ -85,7 +85,9 @@ def shop():
         c = d.cursor()
         c.execute("SELECT * FROM SHOP")
         items = c.fetchall()
-        return render_template("shop.html",items=items)
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userPoints = c.fetchone()
+        return render_template("shop.html",items=items,balance=userPoints[2])
     else:
         return auth.login()
 
