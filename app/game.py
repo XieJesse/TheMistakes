@@ -8,6 +8,7 @@ def initialSetup():
     if request.method == 'POST':
         players = int(request.form['cpu_number']) + 1
     newGame(players)
+    return render_template("game.html")
 
 @bp.route("/blackjack")
 def game():
@@ -18,7 +19,9 @@ def game():
 
 def cpuBehavior(players):
     for i in players[1:]:
-        if i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
+        if i[1] > 21:
+            i[2] == 'Bust'
+        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
             i[2] = "Stay"
         elif i[1] < 17 and i[2] == "Hit":
             drawnCard = drawCards(1)[0]
@@ -32,18 +35,16 @@ def stay():
 
 def hit():
     drawnCard = drawCards(1)[0]
-    players[0][0] += drawnCard["code"]
-    players[0][1] += scoreCards([drawnCard])
+    players[0][0] += drawnCard[0]["code"]
+    players[0][1] += scoreCards([drawnCard[0]])
     if player[0][1] > 21:
         player[0][2] = "Bust"
 
 
 
 # player_scores will be a list.
-# The first element of that list is the score of the human player.
-# There will then be a variable number of cpu player scores.
-# The last score will be the score of the house.
-# There will always be a minimum of 2 scores.
+# The first element of that list is the score of the human player. There will then be a variable number of cpu player scores.
+# The last score will be the score of the house. There will always be a minimum of 2 scores.
 # Example: [20, 4, 17, 23, 21]
 # Returns list of tuples, where the first element of each tuple is the player number
 # (0 being human, len-1 being cpu, everything else being cpu)
@@ -66,6 +67,11 @@ def newGame(playerCount):
     session['players'] = [["",0,""] for i in range(playerCount)]
     # Session variable house tracks house player
     session['house'] = [["",0,""]]
+    drawnCards = drawCards( (playerCount+1) * 2)
+    for i in range(playerCount):
+        session['players'][i][0] += (drawnCards[i*2]["code"] + drawnCards[i*2+1]["code"])
+        #session['players'][i][1] += scoreCards([x for x in drawnCards[i*2:i*2+2]["code"]])
+        # I want scoreCards to obtain a list of card codes
 
 def checkError(url):
     try:
@@ -89,13 +95,31 @@ def newDeck():
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
     session["deck"] = deck_dict["cards"] #List of dictionaries
+    """
+    example session['deck'] # taken from Deck of Cards API
+    [
+        {
+            "image": "https://deckofcardsapi.com/static/img/KH.png",
+            "value": "KING",
+            "suit": "HEARTS",
+            "code": "KH"
+        },
+        {
+            "image": "https://deckofcardsapi.com/static/img/8C.png",
+            "value": "8",
+            "suit": "CLUBS",
+            "code": "8C"
+        }
+    ]
+    """
 
+# returns list of card dictionaries
 def drawCards(numCards):
     cards = []
     if ('deck' in session.keys()):
         for i in range(numCards):
             cards.append(session['deck'][i])
-        session['deck'] = session[deck][numCards]
+        session['deck'] = session['deck'][numCards:]
     return cards
 
 def returnCards():
@@ -109,6 +133,7 @@ def returnCards():
     session["deck"] = deck_dict["cards"]
     #returns all cards back to deck and shuffles
 
+# cardsPlayed parameter should be a List of codes
 def scoreCards(cardsPlayed):
     score = 0
     faceCards = "K, Q, J"
