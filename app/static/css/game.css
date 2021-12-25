@@ -1,3 +1,39 @@
-.club {
-    display: none;
+:root {
+    --transparent-black: rgba(0,0,0,.4);
+}
+
+.layout-container {
+    display: grid;
+    grid-template-areas: "cpu cpu cpu"
+                         "user user user";
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    height: 100%;
+    justify-content: space-between;
+    background-color: var(--med-green);
+    z-index: 1;
+}
+
+.cpu-container {
+    grid-area: cpu;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.user {
+    grid-area: user;
+    justify-self: center;
+    align-self: end;
+    padding: 20px;
+}
+
+.action-overlay {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--transparent-black);
+    z-index: 3;
 }

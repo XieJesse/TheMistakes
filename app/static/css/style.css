@@ -38,6 +38,7 @@ input {
 .navbar {
     background-color: var(--dark-green);
     padding: 0 20px !important;
+    z-index: 4;
 }
 
 .navbar > a {

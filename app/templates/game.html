@@ -4,14 +4,6 @@
 <link rel="stylesheet" href="../static/css/card.css">
 <link rel="stylesheet" href="../static/css/game.css">
 
-<style>
-    {% for card in cards %}
-    .card:nth-child( {{ loop.index }} ) {
-        grid-column: {{ loop.index }} / span {{ loop.index + 2}};
-    }
-    {% endfor %}
-</style>
-
 {% endblock %}
 
 {% macro card(value, suit) -%}
@@ -46,9 +38,37 @@
 {%- endmacro %}
 
 
+{% macro cpu_card() -%}
+    <div class="card small">
+    </div>
+{%- endmacro %}
+
+
 {% block content %}
 <div class="layout-container">
-    <div id="user" class="card-container">
+    <div class="cpu-container">
+        <div class="card-container sm-container">
+            {% for value, suit in cards %}
+            {{ cpu_card() }}
+            {% endfor %}
+        </div>
+        <div class="card-container sm-container">
+            {% for value, suit in cards %}
+            {{ cpu_card() }}
+            {% endfor %}
+        </div>
+        <div class="card-container sm-container">
+            {% for value, suit in cards %}
+            {{ cpu_card() }}
+            {% endfor %}
+        </div>
+        <div class="card-container sm-container">
+            {% for value, suit in cards %}
+            {{ cpu_card() }}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="user card-container">
         {% for value, suit in cards %}
         {{ card(value, suit) }}
         {% endfor %}

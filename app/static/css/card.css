@@ -9,6 +9,10 @@
     --big-card-width: 324px;
     --big-suit-size: 35px;
 
+    --sm-card-height: 200px;
+    --sm-card-width: 140px;
+    --sm-suit-size: 15px;
+
     --suit-main: #1b1b1b;
     --suit-alt: #ee3838;
     --suit-x: 17px;
@@ -22,6 +26,10 @@
     display: grid;
     width: max-content;
     grid-template-columns: repeat(auto-fit, calc(var(--card-width) / 3));
+}
+
+.sm-container {
+    grid-template-columns: repeat(auto-fit, calc(var(--sm-card-width) / 4)) !important;
 }
 
 .card-container > .card {
@@ -52,6 +60,19 @@
 
 .big .suit-container > span {
     font-size: var(--big-suit-size);
+}
+
+.small {
+    width: var(--sm-card-width) !important;
+    height: var(--sm-card-height) !important;
+}
+
+.small .suit-container > svg {
+    width: var(--sm-suit-size);
+}
+
+.small .suit-container > span {
+    font-size: var(--sm-suit-size);
 }
 
 .dark {
