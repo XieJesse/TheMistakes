@@ -11,7 +11,7 @@
 
     --suit-main: #1b1b1b;
     --suit-alt: #ee3838;
-    --suit-x: 20px;
+    --suit-x: 17px;
     --suit-y: 20px;
     --suit-size: 20px;
 }
@@ -19,19 +19,13 @@
 /* Card Containers */
 
 .card-container {
-    display: flex;
+    display: grid;
+    width: max-content;
+    grid-template-columns: repeat(auto-fit, calc(var(--card-width) / 3));
 }
 
-.card-container > .card:nth-child(n + 2) {
-    transform: translateX(
-        calc(-1 * var(--card-width) + var(--suit-size) + 2 * var(--suit-x))
-        );
-}
-
-.card-container > .big:nth-child(n + 2) {
-    transform: translateX(
-        calc(-1 * var(--big-card-width) + var(--big-suit-size) + 2 * var(--suit-x))
-        );
+.card-container > .card {
+    grid-row: 1;
 }
 
 /* Card Styling */
