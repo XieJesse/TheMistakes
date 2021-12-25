@@ -50,9 +50,9 @@ def randomColor():
     response_info = json.loads(response)
     # sets a variable dictionary with color data
     color = response_info["name"]
-    HSL = response_info["hsl"]
-    # set variable equal to hsl values
+    RGB = response_info["rgb"]
+    # set variable equal to rgb values
     colorName = color['value']
     # set variable for color name
-    colorHSL = str(HSL["h"])+"/"+str(HSL["s"])+"/"+str(HSL["l"])
-    return [colorName,colorHSL]
+    colorRGB = str(RGB["r"])+","+str(RGB["g"])+","+str(RGB["b"])
+    return [colorName,colorRGB]

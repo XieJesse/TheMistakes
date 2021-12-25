@@ -53,34 +53,41 @@ def home():
 @app.route("/shop", methods=['GET', 'POST'])
 def shop():
     if auth.is_logged_in():
-        '''
+
         if request.method == 'POST':
             d = db.get_db()
             c = d.cursor()
 
             purchasedItem = request.form['itemName']
+            print(purchasedItem)
             c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
             userPoints = c.fetchone()
-            c.execute("SELECT * FROM SHOP WHERE HSL_URL = (?)", (purchasedItem,))
+            c.execute("SELECT * FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
             itemData = c.fetchone()
+            print(itemData)
             #check and subtract points
             if userPoints[2] < itemData[3]:
                 return render_template("shop.html",error="You're broke")
             c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]-itemData[3], session['username']))
             #remove item from market
-            c.execute("DELETE FROM SHOP WHERE HSL_URL = (?)", (purchasedItem,))
+            c.execute("DELETE FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
             #update inventory
+            d.commit()
             inventory_path = "inventories/%s.txt" % session['username']
-            with open(inventory_path, "w") as inventory:
-                inventory.write(""+itemData[0]+","+itemData[1]+","+itemData[2])
+            with open(inventory_path, "a") as inventory:
+                inventory.write(""+itemData[0]+"/"+itemData[1]+"/"+itemData[2])
                 inventory.write("\n")
-        '''
-
 
 
 
         refresh_shop()
-        return render_template("shop.html")
+        d = db.get_db()
+        c = d.cursor()
+        c.execute("SELECT * FROM SHOP")
+        items = c.fetchall()
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userPoints = c.fetchone()
+        return render_template("shop.html",items=items,balance=userPoints[2])
     else:
         return auth.login()
 
