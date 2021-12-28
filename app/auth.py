@@ -61,16 +61,25 @@ def register():
             return render_template("register.html", error = "Password and re-entered password do not match")
 
         # Add user to database
-        userInfo = [username,password,10000,0,0,"","#000000","#FFFFFF",username+".txt"]
-        c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
-        d.commit()
+        inventory_file = f"{username}.txt"
+        inventory_dir = "inventories"
 
-        inventory_path = "inventories/%s.txt" % username
+        # Join the inventory filename to the inventories path
+        inventory_path = os.path.join(inventory_dir, inventory_file)
+
+        # Ensure the directory exists before the file is made
+        if not os.path.exists(inventory_dir):
+            os.mkdir(inventory_dir)
+
         with open(inventory_path, "w") as inventory:
             inventory.write("card_color/black/0,0,0")
             inventory.write("\n")
             inventory.write("profile_background/white/0,0,100")
             inventory.write("\n")
+
+        userInfo = [username,password,10000,0,0,"","#000000","#FFFFFF", inventory_file]
+        c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
+        d.commit()
 
         session['username'] = username
         return redirect("/")
