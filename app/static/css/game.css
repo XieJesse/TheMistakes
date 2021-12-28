@@ -1,5 +1,5 @@
 :root {
-    --transparent-black: rgba(0,0,0,.4);
+    --transparent-black: rgba(0,0,0,.5);
 }
 
 .layout-container {
@@ -29,6 +29,9 @@
 }
 
 .action-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: flex;
     width: 100%;
     height: 100%;
@@ -36,4 +39,38 @@
     justify-content: center;
     background-color: var(--transparent-black);
     z-index: 3;
+}
+
+.btn-container {
+    display: flex;
+    gap: 20px;
+}
+
+.action-btn {
+    position: relative;
+    width: 100px;
+    padding: 20px 0;
+}
+
+.action-btn > .btn-tooltip {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 22px);
+    padding: 10px;
+    width: 100px;
+    color: var(--dark-gray);
+    background-color: var(--light-gray);
+
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .15s ease;
+}
+
+.action-btn:hover {
+    color: var(--white);
+}
+
+.action-btn:hover > .btn-tooltip {
+    visibility: visible;
+    opacity: 1;
 }
