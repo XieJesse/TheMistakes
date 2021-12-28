@@ -140,3 +140,6 @@ how they are supposed too. Card container width now
 follows the visible content width instead of spanning the width of
 the number of cards (regardless of how they were beign translated).
 
+danielS -- 2021-12-27 21:49
+Added overlay that allows the users to either "hit" or "stand." 
+Added tooltips on hover to explain what each action does.
