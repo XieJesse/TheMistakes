@@ -29,9 +29,8 @@
     <div class="color-icon" style="background-color: rgb({{ rgb_data }})"></div>
     <div class="description-container">
       <span class="descriptor">{{ item_name }}</span>
-      <span class="color-data">{{ rgb_data }}</span>
+      <span class="price">{{ price }} points</span>
     </div>
-    <span class="price">{{ price }} points</span>
   </div>
 {%- endmacro %}
 
@@ -39,7 +38,7 @@
 {{ error }}
 <div class="layout-container">
   <h1>Shop</h1>
-
+  <div class="shop-container">
   {% for item in items %}
     {% if item.type == "card_color" %} 
       {{ color(item.name, item.rgb_url, item.price) }}
@@ -48,7 +47,6 @@
     {% endif %}
 
   {% endfor %}
-    
   </div>
 </div>
 {% endblock %}

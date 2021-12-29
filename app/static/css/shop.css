@@ -132,20 +132,8 @@ img.picture[src=""] {
     z-index: 3;
 }
 
-.color-item .description-container {
-    z-index: 1;
-}
-
 .color-data {
     font-weight: 600;
     font-size: .9rem;
     line-height: .8rem;
-}
-
-.color-item .price {
-    position: absolute;
-    right: 25px;
-    top: 20px;
-    font-size: .9rem;
-    z-index: 3;
 }
