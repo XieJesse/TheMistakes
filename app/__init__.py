@@ -39,6 +39,7 @@ with app.app_context():
     c = d.cursor()
 
 @app.route("/play",methods=['GET', 'POST'])
+@auth.login_required
 def play():
     return render_template("setup.html")
 
@@ -51,6 +52,7 @@ def home():
         return auth.login()
 
 @app.route("/shop", methods=['GET', 'POST'])
+@auth.login_required
 def shop():
     if auth.is_logged_in():
 

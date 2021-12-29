@@ -1,9 +1,20 @@
-from flask import Flask, Blueprint, request, session, render_template, redirect, g
+from flask import Flask, Blueprint, request, session, render_template, redirect, url_for, g
+from functools import wraps
 import os, sqlite3, json, urllib
 
 from db import get_db
 
 bp = Blueprint('auth', __name__)
+
+def login_required(f):
+    """Denotes a page where a user must be logged in to access it. Redirects
+    to the home page if the user isn't logged in."""
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not 'username' in session.keys():
+            return redirect("/")
+        return f(*args, **kwargs)
+    return decorated_function
 
 def is_logged_in():
     return 'username' in session.keys()
