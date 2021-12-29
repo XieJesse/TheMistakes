@@ -38,11 +38,6 @@ with app.app_context():
     d = db.get_db()
     c = d.cursor()
 
-@app.route("/play",methods=['GET', 'POST'])
-@auth.login_required
-def play():
-    return render_template("setup.html")
-
 # Homepage render function
 @app.route("/", methods=['GET', 'POST'])
 def home():

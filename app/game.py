@@ -1,7 +1,13 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import sqlite3, json, urllib, random
+import auth
 
 bp = Blueprint('game', __name__)
+
+@bp.route("/play",methods=['GET', 'POST'])
+@auth.login_required
+def play():
+    return render_template("setup.html")
 
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
