@@ -135,19 +135,24 @@ raymondY -- 2021-12-22- 15:02
 started function to reward player points when they win.
 
 danielS -- 2021-12-25 14:55
-Fix card-container layout so that all cards overlap 
-how they are supposed too. Card container width now 
+Fix card-container layout so that all cards overlap
+how they are supposed too. Card container width now
 follows the visible content width instead of spanning the width of
 the number of cards (regardless of how they were beign translated).
 
 danielS -- 2021-12-27 21:49
-Added overlay that allows the users to either "hit" or "stand." 
+Added overlay that allows the users to either "hit" or "stand."
 Added tooltips on hover to explain what each action does.
 
 danielS -- 2021-12-28 20:02
 Added verification of inventories directory existing and creation upon
-its absence. 
+its absence.
 Added the @login_required decorator to specify routes that
-the user must be logged in to access. 
+the user must be logged in to access.
 Added the leaderboard template that lists the users. Displays a blank
-user icon for a user's profile picture if they don't have one. 
+user icon for a user's profile picture if they don't have one.
+
+alifA -- 2021-12-29 15:46
+Fixed initialSetup indexOutOfBounds issue
+Setup Blueprint routes for the /draw and /hold routes, and linked them with the methods hit and stay respectively
+Created postInitSetup method and several ToDo comments for future direction of plans

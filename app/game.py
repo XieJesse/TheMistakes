@@ -11,9 +11,26 @@ def play():
 
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
+    '''
+    # outlining concerns: newDeck() is run once per session. Here, it is run so that we will a deck ready for newGame to not throw an error.
+    # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
+    # We want to create and call a new function called postInitSetup, that returns all cards in a deck, shuffles them, takes them all back, and starts a new game.
+    '''
+    newDeck()
     if request.method == 'POST':
         players = int(request.form['cpu_number']) + 1
     newGame(players)
+    return render_template("game.html")
+
+
+def postInitSetup():
+    """
+    # TODO:
+    * 1) Return all cards in a deck }
+    * 2) Shuffle all cards in a deck } --> Raymond's return method, I believe, should work
+    * 3) Take back all cards in a deck }
+    * 4) Start a newGame --> newGame()
+    """
     return render_template("game.html")
 
 @bp.route("/blackjack")
@@ -36,15 +53,22 @@ def cpuBehavior(players):
             if i[1] > 21:
                 i[2] == "Bust"
 
-def stay():
-    players[0][2] = "Stay"
 
+@bp.route("/hold")
+def stay():
+    session['players'][0][2] = "Stay"
+    # TODO:
+    # Add functionality to draw cards for house and cpus until they all either bust or stay
+    # Then determine winner
+    return render_template("game.html")
+
+@bp.route("/draw")
 def hit():
     drawnCard = drawCards(1)[0]
-    players[0][0] += drawnCard[0]["code"]
-    players[0][1] += scoreCards([drawnCard[0]])
-    if player[0][1] > 21:
-        player[0][2] = "Bust"
+    session['players'][0][0] += drawnCard[0]["code"]
+    session['players'][0][1] += scoreCards([drawnCard[0]])
+    if session['players'][0][1] > 21:
+        session['players'][0][2] = "Bust"
 
 
 
@@ -73,7 +97,8 @@ def newGame(playerCount):
     session['players'] = [["",0,""] for i in range(playerCount)]
     # Session variable house tracks house player
     session['house'] = [["",0,""]]
-    drawnCards = drawCards( (playerCount+1) * 2)
+    drawnCards = drawCards( (playerCount) * 2)
+    print(drawnCards)
     for i in range(playerCount):
         session['players'][i][0] += (drawnCards[i*2]["code"] + drawnCards[i*2+1]["code"])
         #session['players'][i][1] += scoreCards([x for x in drawnCards[i*2:i*2+2]["code"]])
@@ -119,6 +144,7 @@ def newDeck():
     ]
     """
 
+# logic error: returns empty list
 # returns list of card dictionaries
 def drawCards(numCards):
     cards = []
