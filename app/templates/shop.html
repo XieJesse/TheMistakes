@@ -4,28 +4,51 @@
 <link rel="stylesheet" href="../static/css/shop.css">
 {% endblock %}
 
+{% macro pfp(item_name, img_url, price) -%}
+  <div class="shop-item picture-item">
+    <form class="purchase-overlay" action="/shop" method="POST">
+      <input type="hidden" name="itemName" value="{{ item_name }}">
+      <input type="submit" value="Buy">
+    </form>
+    <div class="picture-container">
+      <img class="picture" src="{{ img_url }}" alt="">
+    </div>
+    <div class="description-container">
+      <span class="descriptor">Profile Picture</span>
+      <span class="price">{{ price }} points</span>
+    </div>
+  </div>
+{%- endmacro %}
+
+{% macro color(item_name, rgb_data, price) -%}
+  <div class="shop-item color-item">
+    <form class="purchase-overlay" action="/shop" method="POST">
+      <input type="hidden" name="itemName" value="{{ item_name }}">
+      <input type="submit" value="Buy">
+    </form>
+    <div class="color-icon" style="background-color: rgb({{ rgb_data }})"></div>
+    <div class="description-container">
+      <span class="descriptor">{{ item_name }}</span>
+      <span class="color-data">{{ rgb_data }}</span>
+    </div>
+    <span class="price">{{ price }} points</span>
+  </div>
+{%- endmacro %}
+
 {% block content %}
 {{ error }}
 <div class="layout-container">
-  <br></br>
-  <h3> Balance: {{ balance }} </h3>
-  <br></br>
+  <h1>Shop</h1>
+
   {% for item in items %}
-  {% if item[0] == 'card_color' %}
-    {% set rgb = item[2].split(',') %}
-    <p style = "color: rgb({{ rgb[0] }},{{ rgb[1] }},{{ rgb[2] }})">
-  {% endif %}
-    Type: {{ item[0] }}
-    <br></br>
-    Name: {{ item[1] }}
-    <br></br>
-    Price: {{ item[3] }}
-    <br></br>
-    <form action="/shop" method="POST">
-      <input type="hidden" name="itemName" value="{{ item[2] }}">
-      <input type="submit" value="Purchase">
-    </form>
-    <br></br>
+    {% if item.type == "card_color" %} 
+      {{ color(item.name, item.rgb_url, item.price) }}
+    {% elif item.type == "pfp" %}
+      {{ pfp(item.name, item.rgb_url, item.price) }}
+    {% endif %}
+
   {% endfor %}
+    
+  </div>
 </div>
 {% endblock %}

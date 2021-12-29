@@ -1,4 +1,5 @@
 :root {
+    --transparent-black: rgba(0,0,0,.5);
     --black: #000000;
     --dark-green: #020e07;
     --med-green: #2c6844;

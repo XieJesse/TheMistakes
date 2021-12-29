@@ -1,7 +1,3 @@
-:root {
-    --transparent-black: rgba(0,0,0,.5);
-}
-
 .layout-container {
     display: grid;
     grid-template-areas: "cpu cpu cpu"

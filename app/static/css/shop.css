@@ -1,0 +1,151 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    background-color: var(--light-gray);
+}
+
+h1 {
+    align-self: flex-start;
+}
+
+.shop-container {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: repeat(auto-fit, 100px);
+    grid-template-rows: repeat(auto-fit, 100px);
+    gap: 10px;
+}
+
+.shop-item {
+    position: relative;
+    border-radius: 25px;
+    background-color: var(--white);
+
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* Purchase & Descriptions */
+
+.purchase-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    background-color: var(--transparent-black);
+    
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
+}
+
+.shop-item:hover .purchase-overlay {
+    visibility: visible;
+    opacity: 1;
+}
+
+.shop-item:hover span {
+    color: var(--white);
+}
+
+.description-container {
+    display: flex;
+    flex-direction: column;
+
+    z-index: 3;
+}
+
+.descriptor {
+    font-weight: 300;
+}
+
+.price {
+    line-height: .8rem;
+    font-size: 1rem;
+}
+
+/* Profile Picture Items */
+
+.picture-item {
+    grid-column: span 2;
+    grid-row: span 2;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.picture-item .description-container {
+    align-items: center;
+}
+
+.picture-container {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.picture {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+}
+
+img.picture[src=""] {
+    display: none;
+}
+
+/* Color Items */
+
+.color-item {
+    grid-column: span 2;
+    grid-row: span 1;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.color-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: 1px solid var(--med-gray);
+
+    z-index: 3;
+}
+
+.color-item .description-container {
+    z-index: 1;
+}
+
+.color-data {
+    font-weight: 600;
+    font-size: .9rem;
+    line-height: .8rem;
+}
+
+.color-item .price {
+    position: absolute;
+    right: 25px;
+    top: 20px;
+    font-size: .9rem;
+    z-index: 3;
+}
