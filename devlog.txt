@@ -143,3 +143,11 @@ the number of cards (regardless of how they were beign translated).
 danielS -- 2021-12-27 21:49
 Added overlay that allows the users to either "hit" or "stand." 
 Added tooltips on hover to explain what each action does.
+
+danielS -- 2021-12-28 20:02
+Added verification of inventories directory existing and creation upon
+its absence. 
+Added the @login_required decorator to specify routes that
+the user must be logged in to access. 
+Added the leaderboard template that lists the users. Displays a blank
+user icon for a user's profile picture if they don't have one. 
