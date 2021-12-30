@@ -156,3 +156,7 @@ alifA -- 2021-12-29 15:46
 Fixed initialSetup indexOutOfBounds issue
 Setup Blueprint routes for the /draw and /hold routes, and linked them with the methods hit and stay respectively
 Created postInitSetup method and several ToDo comments for future direction of plans
+
+danielS -- 2021-12-29 23:28
+Added shop template. Displays shop items in a grid layout. Shop items can be purhcased
+by clicking on respective shop items.
