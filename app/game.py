@@ -17,10 +17,18 @@ def initialSetup():
     # We want to create and call a new function called postInitSetup, that returns all cards in a deck, shuffles them, takes them all back, and starts a new game.
     '''
     newDeck()
+    players = 0
     if request.method == 'POST':
         players = int(request.form['cpu_number']) + 1
-    newGame(players)
-    return render_template("game.html")
+    cards = drawCards(players * 2)
+    newGame(players, cards)
+    #playerCards = []
+    #print(session["formattedCards"][0])
+    # formatting the cards to be passed via jinja variables
+    #for i in range(players):
+    #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
+
+    return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:])
 
 
 def postInitSetup():
@@ -33,26 +41,39 @@ def postInitSetup():
     """
     return render_template("game.html")
 
+# Creates a session variable that is a list of tuples
+# Here is the tuple diagram: (Cards, Card Value, Status)
+# Example tuple: (["KH","5D","AC"], 17, Hit/Bust/Stay)
+# TODO: Update score for each CPU properly
+def newGame(playerCount, drawnCards):
+    # Session variable players tracks human and cpu player stats
+    session['players'] = [[[],0,""] for i in range(playerCount)]
+    session["formattedCards"] = []
+    for i in range(playerCount-1):
+        session['players'][i][0].append(drawnCards[i*2]["code"])
+        session['players'][i][0].append(drawnCards[i*2+1]["code"])
+        # session['players'][i][1] += scoreCards(session['players'][i][0])
+    for i in range(playerCount):
+        session["formattedCards"].append([ [drawnCards[i*2]["value"], drawnCards[i*2]["suit"]], [drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"]] ])
+
+def reward():
+    d = db.get_db()
+    c = d.cursor()
+    payout = 50 #can change if needed (maybe make it random)
+    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+    userPoints = c.fetchone()
+    if blackjack_win == "blackjack":
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ (1.5 * payout), session['username']))
+    else:
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ payout, session['username']))
+
+
 @bp.route("/blackjack")
 def game():
     # try:
         # Game code
     # except:
         return render_template("home.html")
-
-def cpuBehavior(players):
-    for i in players[1:]:
-        if i[1] > 21:
-            i[2] == 'Bust'
-        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
-            i[2] = "Stay"
-        elif i[1] < 17 and i[2] == "Hit":
-            drawnCard = drawCards(1)[0]
-            i[0] += drawnCard["code"];
-            i[1] += scoreCards([drawnCard])
-            if i[1] > 21:
-                i[2] == "Bust"
-
 
 @bp.route("/hold")
 def stay():
@@ -64,13 +85,11 @@ def stay():
 
 @bp.route("/draw")
 def hit():
-    drawnCard = drawCards(1)[0]
-    session['players'][0][0] += drawnCard[0]["code"]
+    drawnCard = drawCards(1)
+    session['players'][0][0].append(drawnCard[0]["code"])
     session['players'][0][1] += scoreCards([drawnCard[0]])
     if session['players'][0][1] > 21:
         session['players'][0][2] = "Bust"
-
-
 
 # player_scores will be a list.
 # The first element of that list is the score of the human player. There will then be a variable number of cpu player scores.
@@ -89,20 +108,18 @@ def blackjack_win(player_scores):
         if player_scores[i] == 21:
             return "blackjack"
 
-# Creates a session variable that is a list of tuples
-# Here is the tuple diagram: (Cards, Card Value, Status)
-# Example tuple: ("KH5DAC", 17, Hit/Bust/Stay)
-def newGame(playerCount):
-    # Session variable players tracks human and cpu player stats
-    session['players'] = [["",0,""] for i in range(playerCount)]
-    # Session variable house tracks house player
-    session['house'] = [["",0,""]]
-    drawnCards = drawCards( (playerCount) * 2)
-    print(drawnCards)
-    for i in range(playerCount):
-        session['players'][i][0] += (drawnCards[i*2]["code"] + drawnCards[i*2+1]["code"])
-        #session['players'][i][1] += scoreCards([x for x in drawnCards[i*2:i*2+2]["code"]])
-        # I want scoreCards to obtain a list of card codes
+def cpuBehavior(players):
+    for i in players[1:]:
+        if i[1] > 21:
+            i[2] == 'Bust'
+        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
+            i[2] = "Stay"
+        elif i[1] < 17 and i[2] == "Hit":
+            drawnCard = drawCards(1)[0]
+            i[0].apend(drawnCard["code"]);
+            i[1] += scoreCards([drawnCard])
+            if i[1] > 21:
+                i[2] == "Bust"
 
 def checkError(url):
     try:
@@ -145,6 +162,7 @@ def newDeck():
     """
 
 # logic error: returns empty list
+# logic error status: resolved
 # returns list of card dictionaries
 def drawCards(numCards):
     cards = []
@@ -165,7 +183,7 @@ def returnCards():
     session["deck"] = deck_dict["cards"]
     #returns all cards back to deck and shuffles
 
-# cardsPlayed parameter should be a List of codes
+# cardsPlayed parameter should be a list of codes
 def scoreCards(cardsPlayed):
     score = 0
     faceCards = "K, Q, J"
@@ -179,14 +197,3 @@ def scoreCards(cardsPlayed):
         if card[0] not in faceCards:
             score += card[0]
     return score
-
-def reward():
-    d = db.get_db()
-    c = d.cursor()
-    payout = 50 #can change if needed (maybe make it random)
-    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-    userPoints = c.fetchone()
-    if blackjack_win == "blackjack":
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ (1.5 * payout), session['username']))
-    else:
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ payout, session['username']))
