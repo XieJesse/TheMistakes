@@ -8,7 +8,9 @@
   <div class="shop-item picture-item">
     <form class="purchase-overlay" action="/shop" method="POST">
       <input type="hidden" name="itemName" value="{{ item_name }}">
-      <input type="submit" value="Buy">
+      <span class="wrap">BuyBuy</span>
+      <span class="wrap-support">BuyBuy</span>
+      <input class="purchase" type="submit" value="">
     </form>
     <div class="picture-container">
       <img class="picture" src="{{ img_url }}" alt="">
@@ -24,7 +26,9 @@
   <div class="shop-item color-item">
     <form class="purchase-overlay" action="/shop" method="POST">
       <input type="hidden" name="itemName" value="{{ item_name }}">
-      <input type="submit" value="Buy">
+      <span class="wrap">BuyBuy</span>
+      <span class="wrap-support">BuyBuy</span>
+      <input class="purchase" type="submit" value="">
     </form>
     <div class="color-icon" style="background-color: rgb({{ rgb_data }})"></div>
     <div class="description-container">
@@ -38,7 +42,10 @@
 {{ error }}
 <div class="layout-container">
   <h1>Shop</h1>
+  <h2 class="display-5">Balance: {{ balance }}</h2>
   <div class="shop-container">
+  {{ pfp("WOOO", "https://cdn.discordapp.com/avatars/81159102687870976/2f7baaea7d8031ef14f028dc26cc487e.png?size=256", 1000)}}
+
   {% for item in items %}
     {% if item.type == "card_color" %} 
       {{ color(item.name, item.rgb_url, item.price) }}

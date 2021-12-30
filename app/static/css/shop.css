@@ -1,8 +1,7 @@
 .layout-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 20px;
+    padding: 50px;
     width: 100%;
     height: 100%;
     background-color: var(--light-gray);
@@ -10,6 +9,10 @@
 
 h1 {
     align-self: flex-start;
+}
+
+h2 {
+    font-size: 2rem !important;
 }
 
 .shop-container {
@@ -43,20 +46,49 @@ h1 {
 
     width: 100%;
     height: 100%;
-    background-color: var(--transparent-black);
     
-    visibility: hidden;
     opacity: 0;
-    z-index: 2;
+    z-index: 4;
+    transition: opacity .1s ease-out;
+    cursor: pointer;
+}
+
+.purchase {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.wrap {
+    position: absolute;
+    left: 0px;
+    font-size: 4rem;
+    font-family: var(--font);
+    opacity: .15;
+
+    animation: wrap-around 1s linear infinite;
+    z-index: 1;
+}
+
+.wrap-support {
+    position: absolute;
+    left: 0px;
+    font-size: 4rem;
+    font-family: var(--font);
+    opacity: .15;
+
+    transform: translateX(100%);
+    animation: wrap-around-supp 1s linear infinite;
+    z-index: 1;
 }
 
 .shop-item:hover .purchase-overlay {
-    visibility: visible;
     opacity: 1;
 }
 
-.shop-item:hover span {
-    color: var(--white);
+.shop-item:hover .purchase {
+    transform: translateX(0);
 }
 
 .description-container {
@@ -67,12 +99,31 @@ h1 {
 }
 
 .descriptor {
-    font-weight: 300;
+    font-weight: 600;
 }
+
 
 .price {
     line-height: .8rem;
     font-size: 1rem;
+    color: var(--med-green);
+}
+
+@keyframes wrap-around {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes wrap-around-supp {
+    from {
+        transform: translateX(100%);
+    } to {
+        transform: translate(50%);
+    }
 }
 
 /* Profile Picture Items */
