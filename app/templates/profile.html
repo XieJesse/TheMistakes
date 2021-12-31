@@ -1,5 +1,52 @@
 {% extends "base.html" %}
 {% block title %}My Profile{% endblock %}
+{% block expand_head %}
+<link rel="stylesheet" href="../static/css/profile.css">
+{% endblock %}
 
 {% block content %}
+<div class="layout-container">
+    <div class="header">
+        <h4 style="color: rgb({{ current_color }})">{{ username }}</h4>
+        <span>Balance: {{ balance }}</span>
+        <span class="wins">Wins: {{ wins }}</span>
+    </div>
+    <h5>Profile Pictures</h5>
+    <div class="pfp-inventory">
+        {% for picture in picture_list %}
+            {% if loop.index == 1 %}
+                <div class="image-container big">
+                    <img src="{{ picture }}" alt="">
+                </div>
+            {% else %}
+                <div class="image-container">
+                    <form class="swap-overlay" action="swap_pfp" method="POST">
+                        <input type="hidden" name="img_url" value="{{ picture }}">
+                        <button type="submit" name="swap" class="swap-button"></button>
+                    </form>
+                    <img src="{{ picture }}" alt="">
+                    <svg xmlns="http://www.w3.org/2000/svg"  class="pfp-not-found" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                    </svg>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <h5>Colors</h5>
+    <div class="palette">
+        {% for color in color_list %}
+            <div class="swatch" style="background-color: rgb({{ color }})">
+                {% if color == current_color %}
+                <svg xmlns="http://www.w3.org/2000/svg" class="selected" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+                </svg>
+                {% endif %}
+                <form class="swap-overlay" action="swap_color" method="POST">
+                    <input type="hidden" name="color" value="{{ color }}">
+                    <button type="submit" name="swap"></button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

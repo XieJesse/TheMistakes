@@ -1,0 +1,139 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 50px calc(50px + 2vw);
+}
+
+/* Header Styling */
+
+.header {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 15px;
+
+    font-family: var(--font);
+}
+
+.header h4 {
+    padding: 0 15px 0 0;
+    margin: 0;
+    border-right: 3px solid var(--med-gray);
+}
+
+.header span {
+    font-size: 1.25rem;
+    color: var(--dark-gray);
+}
+
+.wins {
+    margin-left: auto;
+}
+
+/* Swap Styling */
+
+.swap-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 4;
+
+    background-color: var(--transparent-black);
+    transition: opacity .15s ease;
+    cursor: pointer;
+}
+
+.swap-overlay:hover {
+    opacity: 1;
+}
+
+.swap-overlay button {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Profile Picture Styling */
+
+.pfp-inventory {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    grid-template-rows: 100px;
+    width: 100%;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.big {
+    grid-row: span 2;
+    grid-column: span 2;
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    clip-path: circle(50%);
+    background-color: var(--light-gray);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: scale-down;
+}
+
+img[src=""] {
+    display: none;
+}
+
+.pfp-not-found {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    fill: var(--dark-gray);
+    opacity: 0;
+    visibility: hidden;
+}
+
+img[src=""] ~ .pfp-not-found {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Color Styling */
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 75px);
+    grid-template-rows: repeat(auto-fit, 75px);
+    gap: 20px;
+}
+
+.swatch {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border-radius: 15px;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.selected {
+    width: 50%;
+    height: 50%;
+    fill: var(--light-gray);
+}
+
+.selected ~ .swap-overlay {
+    display: none;
+}
