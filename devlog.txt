@@ -166,11 +166,23 @@ Removed house session variable and reformatted other session variables to be eas
 Created proper game setup code.
 
 danielS -- 2021-12-30 20:10
-Updated game template. Game now displays each move of cpus and gives the user a new card 
+Updated game template. Game now displays each move of cpus and gives the user a new card
 at the start of a new round (as once the user holds, they won't be able to draw again).
 Updated the card container width so that it corrects the container width (as the content width
 within the container doesn't match what visually appears on the screen).
 
+alifA -- 2021-12-31 15:46
+Restructured session variables to be fit to pass to jinja variables.
+Created functionality behind Stay and Hit buttons on the game.html page
+Created the cpuBehavior function to mimic the behavior of cpu in one round
+
+jesseX -- 2021-12-31 16:04
+Added logout method.
+Added random profile picture generation via picsum api.
+ID and URL data is added to the database.
+Fixed error with buying items (incorrect parameter in database).
+
 danielS -- 2021-12-31 18:17
 Add profile template. Displays user's wins, points, and inventories (profile pictures & colors).
 Allows the user to select which profile picture & profile color they use.
+

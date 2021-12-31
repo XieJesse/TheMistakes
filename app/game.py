@@ -4,6 +4,16 @@ import auth
 
 bp = Blueprint('game', __name__)
 
+"""
+# TODO:
+# Get postInitSetup working
+# Finish the endGame function
+# Finish the blackjack_win function, and display the winner as "You won!" or "CPUs won! You lost!" on "results.html"
+# Route a button to use the postInitSetup function under the route "playAgain". The button will appear on results.html. It will render_template "game.html"
+# Make sure that, after clicking Stay or becoming Bust, players are rewarded or lose money accordingly.
+# Display the player score and the scores of each cpu on the results page, as well as the cards of the players and the cpus on the results page.
+"""
+
 @bp.route("/play",methods=['GET', 'POST'])
 @auth.login_required
 def play():
@@ -27,8 +37,8 @@ def initialSetup():
     # formatting the cards to be passed via jinja variables
     #for i in range(players):
     #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
-
-    return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:])
+    session["roundNumber"] = 1
+    return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
 
 
 def postInitSetup():
@@ -41,20 +51,47 @@ def postInitSetup():
     """
     return render_template("game.html")
 
-# Creates a session variable that is a list of tuples
+
+
+"""
+# test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
+
+# test_cpus = [
+#    [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
+#    [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
+#    [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
+#    [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
+# ]
+# test_round_no = 2
+
+# return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no)
+
+# example
+# session["formattedCards"] = [
+# [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")],
+# [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
+#[[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
+# ]
+"""
+# Outdated comments are in triple strings
+# """ Creates a session variable that is a list of tuples
 # Here is the tuple diagram: (Cards, Card Value, Status)
-# Example tuple: (["KH","5D","AC"], 17, Hit/Bust/Stay)
+# Example tuple: (["KH","5D","AC"], 17, Hit/Bust/Stay) """
 # TODO: Update score for each CPU properly
 def newGame(playerCount, drawnCards):
     # Session variable players tracks human and cpu player stats
     session['players'] = [[[],0,""] for i in range(playerCount)]
     session["formattedCards"] = []
-    for i in range(playerCount-1):
+    for i in range(playerCount):
         session['players'][i][0].append(drawnCards[i*2]["code"])
         session['players'][i][0].append(drawnCards[i*2+1]["code"])
-        # session['players'][i][1] += scoreCards(session['players'][i][0])
+        session['players'][i][1] += scoreCards(session['players'][i][0])
     for i in range(playerCount):
-        session["formattedCards"].append([ [drawnCards[i*2]["value"], drawnCards[i*2]["suit"]], [drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"]] ])
+        if i == 0:
+            session["formattedCards"].append([(drawnCards[i*2]["value"], drawnCards[i*2]["suit"]), (drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"])])
+        else:
+            session["formattedCards"].append([ [(drawnCards[i*2]["value"], drawnCards[i*2]["suit"]), (drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"])], True ])
+    #print(session["players"])
 
 def reward():
     d = db.get_db()
@@ -75,21 +112,37 @@ def game():
     # except:
         return render_template("home.html")
 
+def endGame():
+    # should repeatedly call cpuBehavior as long as at least one cpu is in hit status.
+    #print("Hmm Bruh")
+
 @bp.route("/hold")
 def stay():
     session['players'][0][2] = "Stay"
     # TODO:
     # Add functionality to draw cards for house and cpus until they all either bust or stay
     # Then determine winner
-    return render_template("game.html")
+    endGame()
+    return render_template("results.html", msg = "You stood!", cards = session["formattedCards"][0])
 
 @bp.route("/draw")
 def hit():
+    session["roundNumber"] += 1
     drawnCard = drawCards(1)
     session['players'][0][0].append(drawnCard[0]["code"])
-    session['players'][0][1] += scoreCards([drawnCard[0]])
+    #print(session['players'][0][1])
+    session['players'][0][1] = scoreCards(session['players'][0][0])
+    session["formattedCards"][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
     if session['players'][0][1] > 21:
+        #print(session['players'][0][1])
         session['players'][0][2] = "Bust"
+        endGame()
+        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"][0])
+    else:
+        # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
+        cpuBehavior(session["players"])
+        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+
 
 # player_scores will be a list.
 # The first element of that list is the score of the human player. There will then be a variable number of cpu player scores.
@@ -100,26 +153,34 @@ def hit():
 # and the second element will be the player's score. Everyone over 21 will be removed
 # from the final list. The player with the highest score will win. If two people tie
 # or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
+# returns True if player won. False if cpus won
 def blackjack_win(player_scores):
     modified_player_scores = []
+    isPlayerWinner = False
     for i in range(len(player_scores)):
         if player_scores[i] < 22:
             modified_player_scores.append((i, player_scores[i]))
-        if player_scores[i] == 21:
-            return "blackjack"
+    values = [x[1] for x in modified_player_scores]
+    winner = values.index(max(values))
+    if (modified_player_scores[winner][0] == 0):
+        isPlayerWinner = True
+    return isPlayerWinner
 
 def cpuBehavior(players):
-    for i in players[1:]:
-        if i[1] > 21:
-            i[2] == 'Bust'
-        elif i[1] >= 17 and i[1] <= 21 and i[2] == "Hit":
-            i[2] = "Stay"
-        elif i[1] < 17 and i[2] == "Hit":
-            drawnCard = drawCards(1)[0]
-            i[0].apend(drawnCard["code"]);
-            i[1] += scoreCards([drawnCard])
-            if i[1] > 21:
-                i[2] == "Bust"
+    for i in range(len(players[1:])):
+        if players[i+1][1] > 21:
+            players[i+1][2] == 'Bust'
+            session["formattedCards"][i+1][1] = False
+        elif players[i+1][1] >= 17 and players[i+1][1] <= 21:
+            players[i+1][2] = "Stay"
+            session["formattedCards"][i+1][1] = False
+        elif players[i+1][1] < 17:
+            drawnCard = drawCards(1)
+            players[i+1][0].append(drawnCard[0]["code"]);
+            players[i+1][1] = scoreCards(players[i+1][0])
+            session["formattedCards"][i+1][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
+            session["formattedCards"][i+1][1] = True
+
 
 def checkError(url):
     try:
@@ -186,14 +247,15 @@ def returnCards():
 # cardsPlayed parameter should be a list of codes
 def scoreCards(cardsPlayed):
     score = 0
-    faceCards = "K, Q, J"
+    faceCards = "K, Q, J, 0"
     for card in cardsPlayed:
         if card[0] in faceCards:
             score += 10
-        if card[0] == "A" and (score + 11) < 21:
-            score += 11
-        else:
-            score += 1
-        if card[0] not in faceCards:
-            score += card[0]
+        elif card[0] == "A":
+            if (score + 11) < 21:
+                score += 11
+            else:
+                score += 1
+        elif card[0] not in faceCards:
+            score += int(card[0])
     return score

@@ -22,6 +22,13 @@ def refresh_shop():
             # print(itemInfo)
             addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
             c.execute(addItem,itemInfo)
+
+            randPFP = randomPFP()
+            # will generate random pfp based on day
+            itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
+            # print(itemInfo)
+            addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
+            c.execute(addItem,itemInfo)
             d.commit()
 
     if existing_item:
@@ -33,6 +40,13 @@ def refresh_shop():
                 randColor = randomColor()
                 #will generate random color based on day
                 itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
+                # print(itemInfo)
+                addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
+                c.execute(addItem,itemInfo)
+
+                randPFP = randomPFP()
+                # will generate random pfp based on day
+                itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
                 # print(itemInfo)
                 addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
                 c.execute(addItem,itemInfo)
@@ -51,8 +65,22 @@ def randomColor():
     # sets a variable dictionary with color data
     color = response_info["name"]
     RGB = response_info["rgb"]
-    # set variable equal to rgb values
+    # set variable for rgb values
     colorName = color['value']
     # set variable for color name
     colorRGB = str(RGB["r"])+","+str(RGB["g"])+","+str(RGB["b"])
     return [colorName,colorRGB]
+
+def randomPFP():
+    # opens up API data (API data being a randomly generated image from api)
+    req = urllib.request.Request('https://picsum.photos/v2/list?limit=1&page='+str(random.randint(0,993)), headers={'User-Agent': 'Mozilla/5.0'})
+    data = urllib.request.urlopen(req)
+    # reads API data into variable (comes in as JSON data)
+    response = data.read()
+    # converts JSON data to python dictionary
+    response_info = json.loads(response)
+    name = "Image "+str(response_info[0]["id"])
+    # set variable for image "name"
+    url = response_info[0]["url"]
+    # set variable for image url
+    return [name,url]
