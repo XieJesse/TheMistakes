@@ -96,3 +96,12 @@ def register():
         return redirect("/")
     else:
         return render_template("register.html")
+
+@bp.route("/logout", methods=['GET', 'POST'])
+def logout():
+    if request.method == 'GET':
+        if is_logged_in():
+            session.pop('username')
+        return redirect("/")
+    else:
+        return redirect("/")
