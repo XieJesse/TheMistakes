@@ -15,10 +15,24 @@ def test():
     # return render_template("setup.html", colors=test_rgb)
 
     # GAME TEST
-    # test_cards = [["A", "DIAMONDS"], ["3", "CLUBS"], ]
-    # test_cpus = [[["A", "DIAMONDS"], ["3", "CLUBS"]], [["A", "DIAMONDS"], ["3", "CLUBS"], ["3", "CLUBS"]]]
+    test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
 
-    # return render_template("game.html", cards = test_cards, cpus = test_cpus)
+    # The first card within each sublist is displayed.
+    # A list of cpus containing sublists for each CPU
+    # Each sublist contains a list of card tuples, and a boolean 
+    # The card tuples can be lists, but tuples help with visibility
+    # The boolean tells whether the CPU hit (true) or stood (false) in the last round
+    test_cpus = [
+        [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
+    ]
+
+    # Current round number
+    test_round_no = 2
+
+    return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no)
     
     # LEADERBOARD TEST
     # d = db.get_db()
@@ -34,13 +48,12 @@ def test():
     # return render_template("leaderboard.html", players=test_players)
 
     # SHOP TEST
-
-    d = db.get_db()
-    c = d.cursor()
+    # d = db.get_db()
+    # c = d.cursor()
     
-    c.execute("SELECT * FROM SHOP")
+    # c.execute("SELECT * FROM SHOP")
 
-    test_items = c.fetchall()
+    # test_items = c.fetchall()
     return render_template("shop.html", items=test_items)
 
 if __name__ == "__main__":

@@ -10,12 +10,56 @@
     z-index: 1;
 }
 
+/* CPU Styling */
+
 .cpu-container {
     grid-area: cpu;
     display: flex;
     justify-content: space-between;
     padding: 20px;
+    height: max-content;
 }
+
+.center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.move-text {
+    position: absolute;
+    color: var(--suit-red);
+    font-size: 2rem;
+    font-weight: 600;
+    font-family: var(--font);
+    
+    z-index: 3;
+}
+
+.fade-in-out {
+    opacity: 0;
+    animation: fade-in-out 1.5s ease-in-out forwards;
+}
+
+@keyframes fade-in-out {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
+}
+
+.hit-card {
+    animation: slide-up .75s ease forwards, 
+        fade-in .5s ease-out forwards;
+    visibility: hidden;
+}
+
+@keyframes slide-up {
+    from { transform: translateY(50px); }
+    to { transform: translateY(0); }
+}
+
+/* User Styling */
 
 .user {
     grid-area: user;
@@ -69,4 +113,31 @@
 .action-btn:hover > .btn-tooltip {
     visibility: visible;
     opacity: 1;
+}
+
+.slide-down {
+    animation: slide-down .5s ease forwards, 
+        fade-in 1s ease-out forwards;
+}
+
+@keyframes slide-down {
+    from { transform: translateY(-50px) }
+    to { transform: translateY(0) }
+}
+
+.fade-in {
+    opacity: 0;
+    visibility: hidden;
+    animation: fade-in .2s ease-out forwards;
+}
+
+@keyframes fade-in {
+    from { 
+        opacity: 0; 
+        visibility: visible;
+    }
+    to { 
+        opacity: 1; 
+        visibility: visible;
+    }
 }

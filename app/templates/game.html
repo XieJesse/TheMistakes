@@ -6,7 +6,7 @@
 
 {% endblock %}
 
-{% macro card(value, suit) -%}
+{% macro card(value, suit, size, transition) -%}
     {% if suit == "HEARTS" %}
         {% set svg_path = "M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z" %}
         {% set color_type = "alt-color" %}
@@ -21,7 +21,7 @@
         {% set color_type = "main-color" %}
     {% endif %}
 
-    <div class="card {{ color_type }}">
+    <div class="card {{ color_type }} {{ size }} {{ transition }}">
         <div class="suit-container suit-top">
             <span>{{ value }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
@@ -37,44 +37,66 @@
     </div>
 {%- endmacro %}
 
-
-{% macro cpu_card() -%}
-    <div class="card small">
+{% macro face_down_cpu_card(transition, delay) -%}
+    <div class="card small {{ transition }}" style="animation-delay: {{ delay }}s">
     </div>
 {%- endmacro %}
 
+{% macro cpu_move(hit_boolean) -%}
+    {% if hit_boolean %}
+        Hit!
+    {% else %}
+        Stand!
+    {% endif %}
+{%- endmacro %}
+
+{% set reg_card_width = 180 %}
+{% set reg_card_overlap = 1/3 %}
+
+{% set sm_card_width = 140 %}
+{% set sm_card_overlap = 1/4 %}
+
+{% macro hand_width(card_width, card_no, overlap_ratio) -%}
+    {{ card_width + ( (card_no - 1) * (card_width * overlap_ratio) ) }}px
+{%- endmacro %}
+
+{% set move_duration = 1.5 %}
 
 {% block content %}
 <div class="layout-container">
     <div class="cpu-container">
-        <div class="card-container sm-container">
-            {% for value, suit in cards %}
-            {{ cpu_card() }}
-            {% endfor %}
-        </div>
-        <div class="card-container sm-container">
-            {% for value, suit in cards %}
-            {{ cpu_card() }}
-            {% endfor %}
-        </div>
-        <div class="card-container sm-container">
-            {% for value, suit in cards %}
-            {{ cpu_card() }}
-            {% endfor %}
-        </div>
-        <div class="card-container sm-container">
-            {% for value, suit in cards %}
-            {{ cpu_card() }}
-            {% endfor %}
-        </div>
+        {% for cpu, move in cpus %}
+            {% set cpu_no = loop.index %}
+            <div class="card-container sm-container" style="width: {{ hand_width(sm_card_width, cpu|length, sm_card_overlap) }}">
+                <span class="move-text center fade-in-out" style="animation-delay: {{ cpu_no * move_duration }}s"> {{ cpu_move(move) }}</span> 
+                {% for value, suit in cpu|reverse %}
+                    {% if loop.index == 1 and move %}
+                        {{ face_down_cpu_card("hit-card", cpu_no * move_duration) }}
+                    {% elif loop.index == loop.length %}
+                        {{ card(value, suit, "small") }}
+                    {% else %}
+                        {{ face_down_cpu_card() }}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
-    <div class="user card-container">
+    <div class="user card-container" style="width: {{ hand_width(reg_card_width, cards|length, reg_card_overlap) }}">
         {% for value, suit in cards %}
-        {{ card(value, suit) }}
+            {% if loop.index == loop|length %}
+                {{ card(value, suit, "", "slide-down") }}
+            {% else %}
+                {{ card(value, suit) }}
+            {% endif %}
         {% endfor %}
     </div>
 </div>
-<div class="action-overlay">
+<!-- No animation delay if there are no previous actions to display (if the game just started) -->
+{% if round_no == 1 %} 
+<div class="action-overlay fade-in">
+{% else %}
+<div class="action-overlay fade-in" style="animation-delay: {{ cpus|length * move_duration + move_duration }}s">
+{% endif %}
     <div class="btn-container">
         <a href="hold" type="button" class="btn btn-secondary action-btn">
             Stand

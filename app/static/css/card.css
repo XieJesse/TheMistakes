@@ -23,8 +23,8 @@
 /* Card Containers */
 
 .card-container {
+    position: relative;
     display: grid;
-    width: max-content;
     grid-template-columns: repeat(auto-fit, calc(var(--card-width) / 3));
 }
 
