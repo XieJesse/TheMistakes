@@ -6,6 +6,7 @@ bp = Blueprint('game', __name__)
 
 """
 # TODO:
+# Check if player busted while hitting the stay button on "game.html"
 # Get postInitSetup working
 # Finish the endGame function
 # Finish the blackjack_win function, and display the winner as "You won!" or "CPUs won! You lost!" on "results.html"
@@ -114,16 +115,21 @@ def game():
 
 def endGame():
     # should repeatedly call cpuBehavior as long as at least one cpu is in hit status.
-    #print("Hmm Bruh")
+    print("Hmm Bruh")
 
 @bp.route("/hold")
 def stay():
-    session['players'][0][2] = "Stay"
-    # TODO:
-    # Add functionality to draw cards for house and cpus until they all either bust or stay
-    # Then determine winner
-    endGame()
-    return render_template("results.html", msg = "You stood!", cards = session["formattedCards"][0])
+    if session["players"][0][1] > 21:
+        session['players'][0][2] = "Bust"
+        endGame()
+        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"][0])
+    else:
+        session['players'][0][2] = "Stay"
+        # TODO:
+        # Add functionality to draw cards for house and cpus until they all either bust or stay
+        # Then determine winner
+        endGame()
+        return render_template("results.html", msg = "You stood!", cards = session["formattedCards"][0])
 
 @bp.route("/draw")
 def hit():
