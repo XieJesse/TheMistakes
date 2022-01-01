@@ -35,10 +35,8 @@ def play():
             allItems = inventory.readlines()
         for item in allItems:
             itemList = item.split("/")
-            print(itemList)
             if itemList[0] == "card_color":
                 colors.append(itemList[2])
-        print(colors)
         return render_template("setup.html",colors=colors)
     except:
         return render_template("login.html", error = "An issue occurred trying to play Blackjack")

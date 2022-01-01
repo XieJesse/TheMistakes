@@ -200,3 +200,6 @@ Addes try - except error catch functionality to all functions that use the rende
 jesseX -- 2021-01-01 16:56
 Added route to profile picture with all required parameters.
 Moved route to shop.html to shop.py
+
+jesseX -- 2021-01-01 17:10
+Fixed parameters for setup.html
