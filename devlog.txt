@@ -197,6 +197,6 @@ Finished all functionality associated with game.py
 alifA -- 2022-01-01 16:09
 Addes try - except error catch functionality to all functions that use the render_template() function
 
-jesseX -- 2021-01-31 16:56
+jesseX -- 2021-01-01 16:56
 Added route to profile picture with all required parameters.
 Moved route to shop.html to shop.py
