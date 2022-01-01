@@ -1,10 +1,6 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import os, sqlite3, json, urllib
 from db import init_db
-from datetime import date
-from shop import refresh_shop
-
-today = date.today()
 
 import auth, game, db, shop
 
@@ -32,6 +28,9 @@ app.register_blueprint(auth.bp)
 
 # Connect Game Blueprint
 app.register_blueprint(game.bp)
+
+# Connect Game Blueprint
+app.register_blueprint(shop.bp)
 
 with app.app_context():
     init_db()
@@ -73,45 +72,6 @@ def profile():
         if itemList[0] == "pfp":
             pfps.append(itemList[2])
     return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
-
-@app.route("/shop", methods=['GET', 'POST'])
-@auth.login_required
-def shop():
-    if request.method == 'POST':
-        d = db.get_db()
-        c = d.cursor()
-
-        purchasedItem = request.form['itemName']
-        print(purchasedItem)
-        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-        userPoints = c.fetchone()
-        c.execute("SELECT * FROM SHOP WHERE NAME = (?)", (purchasedItem,))
-        itemData = c.fetchone()
-        print(itemData)
-        #check and subtract points
-        if userPoints[2] < itemData[3]:
-            return render_template("shop.html",error="You're broke")
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]-itemData[3], session['username']))
-        #remove item from market
-        c.execute("DELETE FROM SHOP WHERE NAME = (?)", (purchasedItem,))
-        #update inventory
-        d.commit()
-        inventory_path = "inventories/%s.txt" % session['username']
-        with open(inventory_path, "a") as inventory:
-            inventory.write(""+itemData[0]+"/"+itemData[1]+"/"+itemData[2])
-            inventory.write("\n")
-
-
-
-    refresh_shop()
-    d = db.get_db()
-    c = d.cursor()
-    c.execute("SELECT * FROM SHOP")
-    items = c.fetchall()
-    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-    userPoints = c.fetchone()
-    return render_template("shop.html",items=items,balance=userPoints[2])
-
 
 
 if __name__ == "__main__":
