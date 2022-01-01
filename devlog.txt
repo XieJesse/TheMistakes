@@ -193,3 +193,6 @@ Created the cpuBehavior function to mimic the behavior of cpu in one round
 
 alifA -- 2021-12-31 21:43
 Finished all functionality associated with game.py
+
+alifA -- 2022-1-1 16:09
+Addes try - except error catch functionality to all functions that use the render_template() function

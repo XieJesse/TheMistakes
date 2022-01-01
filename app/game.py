@@ -18,32 +18,38 @@ bp = Blueprint('game', __name__)
 @bp.route("/play",methods=['GET', 'POST'])
 @auth.login_required
 def play():
-    return render_template("setup.html")
+    try:
+        return render_template("setup.html")
+    except:
+        return render_template("login.html", error = "An issue occurred trying to play Blackjack")
 
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
-    '''
-    # outlining concerns: newDeck() is run once per session. Here, it is run so that we will a deck ready for newGame to not throw an error.
-    # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
-    # We want to create and call a new function called postInitSetup, that returns all cards in a deck, shuffles them, takes them all back, and starts a new game.
-    '''
-    if "deck" in session and "deckId" in session:
-        #print("bruh")
-        returnCards()
-    else:
-        newDeck()
-    players = 0
-    if request.method == 'POST':
-        players = int(request.form['cpu_number']) + 1
-    cards = drawCards(players * 2)
-    newGame(players, cards)
-    #playerCards = []
-    #print(session["formattedCards"][0])
-    # formatting the cards to be passed via jinja variables
-    #for i in range(players):
-    #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
-    session["roundNumber"] = 1
-    return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+    try:
+        '''
+        # outlining concerns: newDeck() is run once per session. Here, it is run so that we will a deck ready for newGame to not throw an error.
+        # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
+        # We want to create and call a new function called postInitSetup, that returns all cards in a deck, shuffles them, takes them all back, and starts a new game.
+        '''
+        if "deck" in session and "deckId" in session:
+            #print("bruh")
+            returnCards()
+        else:
+            newDeck()
+        players = 0
+        if request.method == 'POST':
+            players = int(request.form['cpu_number']) + 1
+        cards = drawCards(players * 2)
+        newGame(players, cards)
+        #playerCards = []
+        #print(session["formattedCards"][0])
+        # formatting the cards to be passed via jinja variables
+        #for i in range(players):
+        #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
+        session["roundNumber"] = 1
+        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+    except:
+        return render_template("login.html", error = "An issue has occurred setting up the game Blackjack")
 
 """
 # test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
@@ -104,12 +110,7 @@ def reward():
         c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] - payout, session['username']))
 
 
-@bp.route("/blackjack")
-def game():
-    # try:
-        # Game code
-    # except:
-        return render_template("home.html")
+
 
 def endGame():
     isAllHit = True
@@ -123,63 +124,69 @@ def endGame():
 
 @bp.route("/hold")
 def stay():
-    if session["players"][0][1] > 21:
-        session['players'][0][2] = "Bust"
-        endGame()
-        winner = blackjackWin([x[1] for x in session["players"]])
-        result = ""
-        if winner[1]:
-            result += "Blackjack "
-        if winner[0]:
-            result += "Victory"
+    try:
+        if session["players"][0][1] > 21:
+            session['players'][0][2] = "Bust"
+            endGame()
+            winner = blackjackWin([x[1] for x in session["players"]])
+            result = ""
+            if winner[1]:
+                result += "Blackjack "
+            if winner[0]:
+                result += "Victory"
+            else:
+                result += "Defeat"
+            reward()
+            # cards and values are debugger jinja variables
+            return render_template("results.html", msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] , cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
         else:
-            result += "Defeat"
-        reward()
-        # cards and values are debugger jinja variables
-        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
-    else:
-        session['players'][0][2] = "Stay"
-        endGame()
-        winner = blackjackWin([x[1] for x in session["players"]])
-        result = ""
-        if winner[1]:
-            result += "Blackjack "
-        if winner[0]:
-            result += "Victory"
-        else:
-            result += "Defeat"
-        reward()
-        # cards and values are debugger jinja variables
-        return render_template("results.html", msg = "You stood!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
+            session['players'][0][2] = "Stay"
+            endGame()
+            winner = blackjackWin([x[1] for x in session["players"]])
+            result = ""
+            if winner[1]:
+                result += "Blackjack "
+            if winner[0]:
+                result += "Victory"
+            else:
+                result += "Defeat"
+            reward()
+            # cards and values are debugger jinja variables
+            return render_template("results.html", msg = "You stood!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
+    except:
+        return render_template("login.html", error = "An issue occurred with ending the game")
 
 @bp.route("/draw")
 def hit():
-    if session['players'][0][1] > 21:
-        #print(session['players'][0][1])
-        session['players'][0][2] = "Bust"
-        endGame()
-        winner = blackjackWin([x[1] for x in session["players"]])
-        result = ""
-        if winner[1]:
-            result += "Blackjack "
-        if winner[0]:
-            result += "Victory"
+    try:
+        if session['players'][0][1] > 21:
+            #print(session['players'][0][1])
+            session['players'][0][2] = "Bust"
+            endGame()
+            winner = blackjackWin([x[1] for x in session["players"]])
+            result = ""
+            if winner[1]:
+                result += "Blackjack "
+            if winner[0]:
+                result += "Victory"
+            else:
+                result += "Defeat"
+            reward()
+            # cards and values are debugger jinja variables
+            return render_template("results.html", msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
         else:
-            result += "Defeat"
-        reward()
-        # cards and values are debugger jinja variables
-        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
-    else:
-        session["roundNumber"] += 1
-        drawnCard = drawCards(1)
-        session['players'][0][0].append(drawnCard[0]["code"])
-        #print(session['players'][0][1])
-        session['players'][0][1] = scoreCards(session['players'][0][0])
-        session["formattedCards"][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
-        session["players"][0][2] = "Hit"
-        # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
-        cpuBehavior(session["players"])
-        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+            session["roundNumber"] += 1
+            drawnCard = drawCards(1)
+            session['players'][0][0].append(drawnCard[0]["code"])
+            #print(session['players'][0][1])
+            session['players'][0][1] = scoreCards(session['players'][0][0])
+            session["formattedCards"][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
+            session["players"][0][2] = "Hit"
+            # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
+            cpuBehavior(session["players"])
+            return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+    except:
+        return render_template("login.html", error = "An issue occurred with the hit button")
 
 
 # player_scores will be a list.
@@ -230,7 +237,7 @@ def checkError(url):
         r = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         return r
     except requests.exceptions.RequestException:
-        raise Exception("API may not be working at the moment.")
+        return render_template("login.html", error = "An API error has occurred. Please try again later.")
 
 def newDeck():
     # opens up API data (API data being a randomly made deck)

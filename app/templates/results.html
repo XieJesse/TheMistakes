@@ -2,7 +2,9 @@
 {% block title %}Results{% endblock %}
 {% block content %}
 <p> {{msg}} </p>
-<p> All cards: {{cards}} </p>
-<p> All values: {{values}} </p>
+<p> Your hand: {{playerHand}} </p>
+<p> CPU hands: {{cpuHands}} </p>
+<p> Your hand's value: {{playerValue}} </p>
+<p> CPU hands' values: {{cpuValues}} </p>
 <p> You obtained a: {{outcome}} </p>
 {% endblock %}
