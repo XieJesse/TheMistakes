@@ -57,7 +57,7 @@ def shop():
         print(purchasedItem)
         c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
         userPoints = c.fetchone()
-        c.execute("SELECT * FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
+        c.execute("SELECT * FROM SHOP WHERE NAME = (?)", (purchasedItem,))
         itemData = c.fetchone()
         print(itemData)
         #check and subtract points
@@ -65,7 +65,7 @@ def shop():
             return render_template("shop.html",error="You're broke")
         c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]-itemData[3], session['username']))
         #remove item from market
-        c.execute("DELETE FROM SHOP WHERE RGB_URL = (?)", (purchasedItem,))
+        c.execute("DELETE FROM SHOP WHERE NAME = (?)", (purchasedItem,))
         #update inventory
         d.commit()
         inventory_path = "inventories/%s.txt" % session['username']

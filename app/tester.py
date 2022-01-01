@@ -15,24 +15,24 @@ def test():
     # return render_template("setup.html", colors=test_rgb)
 
     # GAME TEST
-    test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
+    # test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
 
     # The first card within each sublist is displayed.
     # A list of cpus containing sublists for each CPU
     # Each sublist contains a list of card tuples, and a boolean 
     # The card tuples can be lists, but tuples help with visibility
     # The boolean tells whether the CPU hit (true) or stood (false) in the last round
-    test_cpus = [
-        [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
-        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
-        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
-        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
-    ]
+    # test_cpus = [
+    #     [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
+    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
+    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
+    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
+    # ]
 
     # Current round number
-    test_round_no = 2
+    # test_round_no = 2
 
-    return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no)
+    # return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no)
     
     # LEADERBOARD TEST
     # d = db.get_db()
@@ -54,7 +54,23 @@ def test():
     # c.execute("SELECT * FROM SHOP")
 
     # test_items = c.fetchall()
-    return render_template("shop.html", items=test_items)
+    # return render_template("shop.html", items=test_items)
+
+    # Profile Test
+
+    test_username = "johndoe"
+    test_bal = 10000
+    test_wins = 999
+
+    # Lists of profile pictures (with the current pfp at index 0)
+    test_pfps = ["https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png", "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", ""]
+    
+    # The current color the user is using
+    test_current_color = "214, 0, 79"
+    # List of colors within the user's inventory 
+    test_colors = ["0,0,0", "20,20,20", "214, 0, 79", "251, 143, 255"]
+
+    return render_template("profile.html", username = test_username, balance = test_bal, wins=test_wins, picture_list = test_pfps, current_color = test_current_color, color_list = test_colors)
 
 if __name__ == "__main__":
     app.debug = True
