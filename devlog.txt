@@ -186,3 +186,10 @@ danielS -- 2021-12-31 18:17
 Add profile template. Displays user's wins, points, and inventories (profile pictures & colors).
 Allows the user to select which profile picture & profile color they use.
 
+alifA -- 2021-12-31 15:46
+Restructured session variables to be fit to pass to jinja variables.
+Created functionality behind Stay and Hit buttons on the game.html page
+Created the cpuBehavior function to mimic the behavior of cpu in one round
+
+alifA -- 2021-12-31 21:43
+Finished all functionality associated with game.py

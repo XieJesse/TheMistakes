@@ -1,18 +1,18 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import sqlite3, json, urllib, random
 import auth
-
+import db
 bp = Blueprint('game', __name__)
 
 """
 # TODO:
-# Check if player busted while hitting the stay button on "game.html"
+# Resolved: Check if player busted while hitting the stay button on "game.html"
 # Get postInitSetup working
-# Finish the endGame function
-# Finish the blackjack_win function, and display the winner as "You won!" or "CPUs won! You lost!" on "results.html"
+# Resolved: Finish the endGame function
+# Resolved: Finish the blackjack_win function, and display the winner as "You won!" or "CPUs won! You lost!" on "results.html"
 # Route a button to use the postInitSetup function under the route "playAgain". The button will appear on results.html. It will render_template "game.html"
-# Make sure that, after clicking Stay or becoming Bust, players are rewarded or lose money accordingly.
-# Display the player score and the scores of each cpu on the results page, as well as the cards of the players and the cpus on the results page.
+# Resolved: Make sure that, after clicking Stay or becoming Bust, players are rewarded or lose money accordingly.
+# Resolved: Display the player score and the scores of each cpu on the results page, as well as the cards of the players and the cpus on the results page.
 """
 
 @bp.route("/play",methods=['GET', 'POST'])
@@ -27,7 +27,11 @@ def initialSetup():
     # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
     # We want to create and call a new function called postInitSetup, that returns all cards in a deck, shuffles them, takes them all back, and starts a new game.
     '''
-    newDeck()
+    if "deck" in session and "deckId" in session:
+        #print("bruh")
+        returnCards()
+    else:
+        newDeck()
     players = 0
     if request.method == 'POST':
         players = int(request.form['cpu_number']) + 1
@@ -40,19 +44,6 @@ def initialSetup():
     #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
     session["roundNumber"] = 1
     return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
-
-
-def postInitSetup():
-    """
-    # TODO:
-    * 1) Return all cards in a deck }
-    * 2) Shuffle all cards in a deck } --> Raymond's return method, I believe, should work
-    * 3) Take back all cards in a deck }
-    * 4) Start a newGame --> newGame()
-    """
-    return render_template("game.html")
-
-
 
 """
 # test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
@@ -86,7 +77,8 @@ def newGame(playerCount, drawnCards):
     for i in range(playerCount):
         session['players'][i][0].append(drawnCards[i*2]["code"])
         session['players'][i][0].append(drawnCards[i*2+1]["code"])
-        session['players'][i][1] += scoreCards(session['players'][i][0])
+        session['players'][i][1] = scoreCards(session['players'][i][0])
+        session['players'][i][2] = "Hit"
     for i in range(playerCount):
         if i == 0:
             session["formattedCards"].append([(drawnCards[i*2]["value"], drawnCards[i*2]["suit"]), (drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"])])
@@ -100,10 +92,16 @@ def reward():
     payout = 50 #can change if needed (maybe make it random)
     c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
     userPoints = c.fetchone()
-    if blackjack_win == "blackjack":
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ (1.5 * payout), session['username']))
+    winner = blackjackWin([x[1] for x in session["players"]])
+    # blackjackWin(list_of_player_scores)[1]
+    if (winner[0] == True and winner[1] == True):
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + (1.5 * payout), session['username']))
+    elif winner[0] == True:
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + payout, session['username']))
+    elif winner[1] == True:
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] - (1.5 * payout), session['username']))
     else:
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]+ payout, session['username']))
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] - payout, session['username']))
 
 
 @bp.route("/blackjack")
@@ -114,37 +112,71 @@ def game():
         return render_template("home.html")
 
 def endGame():
-    # should repeatedly call cpuBehavior as long as at least one cpu is in hit status.
-    print("Hmm Bruh")
+    isAllHit = True
+    while (isAllHit):
+        isAllHit = False
+        cpuBehavior(session["players"])
+        for i in session["players"][1:]:
+            if i[2] == "Hit":
+                isAllHit = True
+                break
 
 @bp.route("/hold")
 def stay():
     if session["players"][0][1] > 21:
         session['players'][0][2] = "Bust"
         endGame()
-        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"][0])
+        winner = blackjackWin([x[1] for x in session["players"]])
+        result = ""
+        if winner[1]:
+            result += "Blackjack "
+        if winner[0]:
+            result += "Victory"
+        else:
+            result += "Defeat"
+        reward()
+        # cards and values are debugger jinja variables
+        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
     else:
         session['players'][0][2] = "Stay"
-        # TODO:
-        # Add functionality to draw cards for house and cpus until they all either bust or stay
-        # Then determine winner
         endGame()
-        return render_template("results.html", msg = "You stood!", cards = session["formattedCards"][0])
+        winner = blackjackWin([x[1] for x in session["players"]])
+        result = ""
+        if winner[1]:
+            result += "Blackjack "
+        if winner[0]:
+            result += "Victory"
+        else:
+            result += "Defeat"
+        reward()
+        # cards and values are debugger jinja variables
+        return render_template("results.html", msg = "You stood!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
 
 @bp.route("/draw")
 def hit():
-    session["roundNumber"] += 1
-    drawnCard = drawCards(1)
-    session['players'][0][0].append(drawnCard[0]["code"])
-    #print(session['players'][0][1])
-    session['players'][0][1] = scoreCards(session['players'][0][0])
-    session["formattedCards"][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
     if session['players'][0][1] > 21:
         #print(session['players'][0][1])
         session['players'][0][2] = "Bust"
         endGame()
-        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"][0])
+        winner = blackjackWin([x[1] for x in session["players"]])
+        result = ""
+        if winner[1]:
+            result += "Blackjack "
+        if winner[0]:
+            result += "Victory"
+        else:
+            result += "Defeat"
+        reward()
+        # cards and values are debugger jinja variables
+        return render_template("results.html", msg = "You busted!", cards = session["formattedCards"], values = [x[1] for x in session["players"]], outcome = result)
     else:
+        session["roundNumber"] += 1
+        drawnCard = drawCards(1)
+        session['players'][0][0].append(drawnCard[0]["code"])
+        #print(session['players'][0][1])
+        session['players'][0][1] = scoreCards(session['players'][0][0])
+        session["formattedCards"][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
+        session["players"][0][2] = "Hit"
         # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
         cpuBehavior(session["players"])
         return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
@@ -160,22 +192,26 @@ def hit():
 # from the final list. The player with the highest score will win. If two people tie
 # or if the list of tuples is empty (meaning everyone busted) then no one will be awarded coins
 # returns True if player won. False if cpus won
-def blackjack_win(player_scores):
+def blackjackWin(player_scores):
     modified_player_scores = []
     isPlayerWinner = False
+    isBlackJack = False
     for i in range(len(player_scores)):
         if player_scores[i] < 22:
             modified_player_scores.append((i, player_scores[i]))
-    values = [x[1] for x in modified_player_scores]
-    winner = values.index(max(values))
-    if (modified_player_scores[winner][0] == 0):
-        isPlayerWinner = True
-    return isPlayerWinner
+    if (len(modified_player_scores) > 0):
+        values = [x[1] for x in modified_player_scores]
+        winner = values.index(max(values))
+        if (len(modified_player_scores) > 0 and modified_player_scores[winner][0] == 0):
+            isPlayerWinner = True
+        if(values[winner] == 21):
+            isBlackJack = True
+    return (isPlayerWinner, isBlackJack)
 
 def cpuBehavior(players):
     for i in range(len(players[1:])):
         if players[i+1][1] > 21:
-            players[i+1][2] == 'Bust'
+            players[i+1][2] = 'Bust'
             session["formattedCards"][i+1][1] = False
         elif players[i+1][1] >= 17 and players[i+1][1] <= 21:
             players[i+1][2] = "Stay"
@@ -184,6 +220,7 @@ def cpuBehavior(players):
             drawnCard = drawCards(1)
             players[i+1][0].append(drawnCard[0]["code"]);
             players[i+1][1] = scoreCards(players[i+1][0])
+            players[i+1][2] = "Hit"
             session["formattedCards"][i+1][0].append( (drawnCard[0]["value"], drawnCard[0]["suit"]) )
             session["formattedCards"][i+1][1] = True
 
@@ -209,6 +246,7 @@ def newDeck():
     deck_data = urllib.request.urlopen(deck_req)
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
+    session["deckId"] = deckid
     session["deck"] = deck_dict["cards"] #List of dictionaries
     """
     example session['deck'] # taken from Deck of Cards API
@@ -240,10 +278,11 @@ def drawCards(numCards):
     return cards
 
 def returnCards():
-    req = checkError('https://deckofcardsapi.com/api/deck/' + DECKID + '/return/')
+    checkError('https://deckofcardsapi.com/api/deck/' + session["deckId"] + '/return/')
+    req = checkError('https://deckofcardsapi.com/api/deck/' + session["deckId"] + '/shuffle/')
     data = urllib.request.urlopen(req)
     #new set of cards
-    deck_req = checkError('https://deckofcardsapi.com/api/deck/' + deckid + '/draw/?count=52')
+    deck_req = checkError('https://deckofcardsapi.com/api/deck/' + session["deckId"] + '/draw/?count=52')
     deck_data = urllib.request.urlopen(deck_req)
     deck_response = deck_data.read()
     deck_dict = json.loads(deck_response)
@@ -258,7 +297,7 @@ def scoreCards(cardsPlayed):
         if card[0] in faceCards:
             score += 10
         elif card[0] == "A":
-            if (score + 11) < 21:
+            if (score + 11) < 22:
                 score += 11
             else:
                 score += 1
