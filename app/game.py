@@ -2,6 +2,7 @@ from flask import Flask, Blueprint, request, session, render_template, redirect,
 import sqlite3, json, urllib, random
 import auth
 import db
+import os
 bp = Blueprint('game', __name__)
 
 """
@@ -19,7 +20,26 @@ bp = Blueprint('game', __name__)
 @auth.login_required
 def play():
     try:
-        return render_template("setup.html")
+        d = db.get_db()
+        c = d.cursor()
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userData = c.fetchone()
+        colors = []
+        inventory_file = f"{session['username']}.txt"
+        inventory_dir = "inventories"
+
+        # Join the inventory filename to the inventories path
+        inventory_path = os.path.join(inventory_dir, inventory_file)
+
+        with open(inventory_path, "r") as inventory:
+            allItems = inventory.readlines()
+        for item in allItems:
+            itemList = item.split("/")
+            print(itemList)
+            if itemList[0] == "card_color":
+                colors.append(itemList[2])
+        print(colors)
+        return render_template("setup.html",colors=colors)
     except:
         return render_template("login.html", error = "An issue occurred trying to play Blackjack")
 
