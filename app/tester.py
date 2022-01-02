@@ -58,19 +58,29 @@ def test():
 
     # Profile Test
 
+    # test_username = "johndoe"
+    # test_bal = 10000
+    # test_wins = 999
+
+    # Lists of profile pictures (with the current pfp at index 0)
+    # test_pfps = ["https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png", "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", ""]
+    
+    # The current color the user is using
+    # test_current_color = "214, 0, 79"
+    # List of colors within the user's inventory 
+    # test_colors = ["0,0,0", "20,20,20", "214, 0, 79", "251, 143, 255"]
+
+    # return render_template("profile.html", username = test_username, balance = test_bal, wins=test_wins, picture_list = test_pfps, current_color = test_current_color, color_list = test_colors)
+
+    # Home Test
+
     test_username = "johndoe"
     test_bal = 10000
     test_wins = 999
-
-    # Lists of profile pictures (with the current pfp at index 0)
-    test_pfps = ["https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png", "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", ""]
-    
-    # The current color the user is using
     test_current_color = "214, 0, 79"
-    # List of colors within the user's inventory 
-    test_colors = ["0,0,0", "20,20,20", "214, 0, 79", "251, 143, 255"]
+    test_pfp = "https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png"
 
-    return render_template("profile.html", username = test_username, balance = test_bal, wins=test_wins, picture_list = test_pfps, current_color = test_current_color, color_list = test_colors)
+    return render_template("home.html", username = test_username, balance = test_bal, wins=test_wins, current_color = test_current_color, profile_picture = test_pfp)
 
 if __name__ == "__main__":
     app.debug = True
