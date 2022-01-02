@@ -194,5 +194,15 @@ Created the cpuBehavior function to mimic the behavior of cpu in one round
 alifA -- 2021-12-31 21:43
 Finished all functionality associated with game.py
 
+alifA -- 2022-01-01 16:09
+Addes try - except error catch functionality to all functions that use the render_template() function
+
+jesseX -- 2021-01-01 16:56
+Added route to profile picture with all required parameters.
+Moved route to shop.html to shop.py
+
+jesseX -- 2021-01-01 17:10
+Fixed parameters for setup.html
+
 danielS -- 2021-1-2022 19:17
 Added home page. Home page has links to other areas of interest on the site.
