@@ -130,6 +130,11 @@ def reward():
     payout = rewardCalc()
     c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
     userPoints = c.fetchone()
+    if payout > 0:
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userData = c.fetchone()
+        wins = userData[3]
+        c.execute("UPDATE USERS SET WINS = (?) WHERE USERNAME = (?)", (wins+1, session['username']))
     c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + payout, session['username']))
     d.commit()
 

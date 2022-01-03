@@ -70,7 +70,7 @@
         {% for cpu in cpuHands %}
             <div class="cpu-summary">
                 <span class="cpu-label">CPU {{ loop.index }}'s Hand</span>
-                <span class="cpu-score">Final Score: {{ cpuValues[loop.index] }}</span>
+                <span class="cpu-score">Final Score: {{ cpuValues[loop.index0] }}</span>
                 <div class="card-container sm-card-container" style="width: {{ hand_width(sm_card_width, cpu|length, sm_card_overlap) }}">
                     {% for value, suit in cpu %}
                         {{ card(value, suit, "small")}}
