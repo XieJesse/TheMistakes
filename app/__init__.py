@@ -44,7 +44,14 @@ with app.app_context():
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if auth.is_logged_in():
-        return render_template("home.html")
+        d = db.get_db()
+        c = d.cursor()
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userData = c.fetchone()
+        username = userData[0]
+        balance = userData[2]
+        wins = userData[3]
+        return render_template("home.html",wins=wins,balance=balance,username=username)
     else:
         return auth.login()
 
