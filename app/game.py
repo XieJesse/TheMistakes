@@ -164,8 +164,11 @@ def stay():
             else:
                 result += "Defeat"
             reward()
-            cpuHands = session["formattedCards"][1:][0]
-            cpuHands.remove(False)
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
             return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] , cpuValues = [x[1] for x in session["players"][1:]])
         else:
@@ -180,8 +183,11 @@ def stay():
             else:
                 result += "Defeat"
             reward()
-            cpuHands = session["formattedCards"][1:][0]
-            cpuHands.remove(False)
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
             return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You stood!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
     except:
@@ -203,8 +209,11 @@ def hit():
             else:
                 result += "Defeat"
             reward()
-            cpuHands = session["formattedCards"][1:][0]
-            cpuHands.remove(False)
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
             return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
         else:
