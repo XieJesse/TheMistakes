@@ -211,3 +211,6 @@ jesseX -- 2022-01-02 22:14
 Added route to leaderboard.html with parameters.
 Fixed error with displaying images for profile pictures.
 Added proper parameters to home.html route.
+
+danielS -- 2022-01-02 23:59
+Add results template. Displays player's final score & hand, reward, cpu scores & hands.
