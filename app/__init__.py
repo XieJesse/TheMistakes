@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, session, render_template, redirect,
 import os, sqlite3, json, urllib
 from db import init_db
 
-import auth, game, db, shop
+import auth, game, db, shop, leaderboard
 
 
 def create_app():
@@ -31,6 +31,9 @@ app.register_blueprint(game.bp)
 
 # Connect Game Blueprint
 app.register_blueprint(shop.bp)
+
+# Connect leaderboard Blueprint
+app.register_blueprint(leaderboard.bp)
 
 with app.app_context():
     init_db()
