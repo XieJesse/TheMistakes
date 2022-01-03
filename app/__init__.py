@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, session, render_template, redirect,
 import os, sqlite3, json, urllib
 from db import init_db
 
-import auth, game, db, shop, leaderboard
+import auth, game, db, shop, leaderboard, profile
 
 
 def create_app():
@@ -35,6 +35,9 @@ app.register_blueprint(shop.bp)
 # Connect leaderboard Blueprint
 app.register_blueprint(leaderboard.bp)
 
+# Connect profile Blueprint
+app.register_blueprint(profile.bp)
+
 with app.app_context():
     init_db()
     d = db.get_db()
@@ -54,35 +57,6 @@ def home():
         return render_template("home.html",wins=wins,balance=balance,username=username)
     else:
         return auth.login()
-
-@app.route("/profile", methods=['GET', 'POST'])
-@auth.login_required
-def profile():
-    d = db.get_db()
-    c = d.cursor()
-    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-    userData = c.fetchone()
-    balance = userData[2]
-    wins = userData[3]
-    currColor = userData[7]
-    colors = []
-    pfps = []
-    inventory_file = f"{session['username']}.txt"
-    inventory_dir = "inventories"
-
-    # Join the inventory filename to the inventories path
-    inventory_path = os.path.join(inventory_dir, inventory_file)
-
-    with open(inventory_path, "r") as inventory:
-        allItems = inventory.readlines()
-    for item in allItems:
-        itemList = item.split("|")
-        if itemList[0] == "card_color":
-            colors.append(itemList[2])
-        if itemList[0] == "pfp":
-            pfps.append(itemList[2])
-    print(pfps)
-    return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
 
 
 if __name__ == "__main__":
