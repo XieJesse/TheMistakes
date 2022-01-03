@@ -34,7 +34,7 @@ def play():
         with open(inventory_path, "r") as inventory:
             allItems = inventory.readlines()
         for item in allItems:
-            itemList = item.split("/")
+            itemList = item.split("|")
             if itemList[0] == "card_color":
                 colors.append(itemList[2])
         return render_template("setup.html",colors=colors)

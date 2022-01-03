@@ -83,9 +83,9 @@ def register():
             os.mkdir(inventory_dir)
 
         with open(inventory_path, "w") as inventory:
-            inventory.write("card_color/black/0,0,0")
+            inventory.write("card_color|black|0,0,0")
             inventory.write("\n")
-            inventory.write("profile_background/white/0,0,100")
+            inventory.write("profile_background|white|0,0,100")
             inventory.write("\n")
 
         userInfo = [username,password,10000,0,0,"","#000000","#FFFFFF", inventory_file]

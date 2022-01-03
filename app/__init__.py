@@ -69,11 +69,12 @@ def profile():
     with open(inventory_path, "r") as inventory:
         allItems = inventory.readlines()
     for item in allItems:
-        itemList = item.split("/")
+        itemList = item.split("|")
         if itemList[0] == "card_color":
             colors.append(itemList[2])
         if itemList[0] == "pfp":
             pfps.append(itemList[2])
+    print(pfps)
     return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
 
 

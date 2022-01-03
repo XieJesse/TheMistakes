@@ -33,7 +33,7 @@ def shop():
         d.commit()
         inventory_path = "inventories/%s.txt" % session['username']
         with open(inventory_path, "a") as inventory:
-            inventory.write(""+itemData[0]+"/"+itemData[1]+"/"+itemData[2])
+            inventory.write(""+itemData[0]+"|"+itemData[1]+"|"+itemData[2])
             inventory.write("\n")
         #run refresh_shop method
     refresh_shop()
@@ -122,6 +122,6 @@ def randomPFP():
     response_info = json.loads(response)
     name = "Image "+str(response_info[0]["id"])
     # set variable for image "name"
-    url = response_info[0]["url"]
+    url = response_info[0]["download_url"]
     # set variable for image url
     return [name,url]
