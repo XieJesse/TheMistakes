@@ -74,13 +74,38 @@ def test():
 
     # Home Test
 
-    test_username = "johndoe"
-    test_bal = 10000
-    test_wins = 999
-    test_current_color = "214, 0, 79"
-    test_pfp = "https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png"
+    # test_username = "johndoe"
+    # test_bal = 10000
+    # test_wins = 999
+    # test_current_color = "214, 0, 79"
+    # test_pfp = "https://cdn.discordapp.com/attachments/803649184887472148/913649895276163082/citygirl_recolor_eyes.png"
 
-    return render_template("home.html", username = test_username, balance = test_bal, wins=test_wins, current_color = test_current_color, profile_picture = test_pfp)
+    # return render_template("home.html", username = test_username, balance = test_bal, wins=test_wins, current_color = test_current_color, profile_picture = test_pfp)
+
+    # Result Test
+
+    test_hand = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
+    test_cpus = [
+        [("A", "DIAMONDS"), ("3", "CLUBS")],
+        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")],
+        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")],
+        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")]
+    ]
+    test_values = [0,1,2,3,4]
+
+    # test_reward = {
+    #     "data" : "245, 0, 139", 
+    #     "type" : "color",
+    #     "name" : "Hot Pink"
+    # }
+
+    test_reward = {
+        "data" : "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", 
+        "type" : "image",
+        "name" : ""
+    }
+
+    return render_template("results.html", playerHand = test_hand, cpuHands = test_cpus, cpuValues=test_values, reward = test_reward)
 
 if __name__ == "__main__":
     app.debug = True
