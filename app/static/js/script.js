@@ -40,6 +40,7 @@ function setCardHandlers(radio, cardList, propertyName) {
     for (var i = 0; i < radio.length; i++) {
         radio[i].addEventListener("change", function() {
             document.documentElement.style.setProperty(propertyName, "rgb(" + this.value + ")");
+            console.log(this.value)
             var channels = this.value.split(",");
             setCardBase(cardList, lightness(channels));
         });

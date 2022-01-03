@@ -85,6 +85,8 @@ def register():
         with open(inventory_path, "w") as inventory:
             inventory.write("card_color|black|0,0,0")
             inventory.write("\n")
+            inventory.write("card_color|red|238, 56, 56")
+            inventory.write("\n")
             inventory.write("profile_background|white|0,0,100")
             inventory.write("\n")
 
