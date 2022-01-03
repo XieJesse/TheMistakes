@@ -214,3 +214,7 @@ Added proper parameters to home.html route.
 
 danielS -- 2022-01-02 23:59
 Add results template. Displays player's final score & hand, reward, cpu scores & hands.
+
+danielS -- 2022-01-03 00:14
+Updated initial user colors (added red). Fixed no placeholder profile picture being displayed on home screen 
+if the user doesn't have a profile picture.
