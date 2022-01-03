@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, session, render_template, redirect,
 import os, sqlite3, json, urllib
 from db import init_db
 
-import auth, game, db, shop
+import auth, game, db, shop, leaderboard
 
 
 def create_app():
@@ -32,6 +32,9 @@ app.register_blueprint(game.bp)
 # Connect Game Blueprint
 app.register_blueprint(shop.bp)
 
+# Connect leaderboard Blueprint
+app.register_blueprint(leaderboard.bp)
+
 with app.app_context():
     init_db()
     d = db.get_db()
@@ -41,7 +44,14 @@ with app.app_context():
 @app.route("/", methods=['GET', 'POST'])
 def home():
     if auth.is_logged_in():
-        return render_template("home.html")
+        d = db.get_db()
+        c = d.cursor()
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userData = c.fetchone()
+        username = userData[0]
+        balance = userData[2]
+        wins = userData[3]
+        return render_template("home.html",wins=wins,balance=balance,username=username)
     else:
         return auth.login()
 
@@ -66,11 +76,12 @@ def profile():
     with open(inventory_path, "r") as inventory:
         allItems = inventory.readlines()
     for item in allItems:
-        itemList = item.split("/")
+        itemList = item.split("|")
         if itemList[0] == "card_color":
             colors.append(itemList[2])
         if itemList[0] == "pfp":
             pfps.append(itemList[2])
+    print(pfps)
     return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
 
 
