@@ -10,8 +10,6 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
                 WINS INTEGER,
                 LOSSES INTEGER,
                 PROFILE_PICTURE TEXT,
-                PROFILE_BACKGROUND TEXT,
-                CARD_COLOR TEXT,
                 INVENTORY TEXT)'''
 
 create_shop = '''CREATE TABLE IF NOT EXISTS SHOP(

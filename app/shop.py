@@ -22,10 +22,12 @@ def shop():
         userData = c.fetchone()
         c.execute("SELECT * FROM SHOP WHERE NAME = (?)", (purchasedItem,))
         itemData = c.fetchone()
+        c.execute("SELECT * FROM SHOP")
+        items = c.fetchall()
         # print(itemData)
         #check and subtract points
         if userData[2] < itemData[3]:
-            return render_template("shop.html",error="You're broke")
+            return render_template("shop.html",error="You're broke", balance = userData[2], items=items)
         c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userData[2]-itemData[3], session['username']))
         #remove item from market
         c.execute("DELETE FROM SHOP WHERE NAME = (?)", (purchasedItem,))

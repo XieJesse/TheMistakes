@@ -39,13 +39,14 @@
 {%- endmacro %}
 
 {% block content %}
-{{ error }}
+
 <div class="layout-container">
   <h1>Shop</h1>
+  <h1>{{ error }}</h1>
   <h2 class="display-5">Balance: {{ balance }}</h2>
   <div class="shop-container">
   {% for item in items %}
-    {% if item.type == "card_color" %} 
+    {% if item.type == "card_color" %}
       {{ color(item.name, item.rgb_url, item.price) }}
     {% elif item.type == "pfp" %}
       {{ pfp(item.name, item.rgb_url, item.price) }}

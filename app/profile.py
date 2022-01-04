@@ -15,7 +15,6 @@ def profile():
     userData = c.fetchone()
     balance = userData[2]
     wins = userData[3]
-    currColor = userData[7]
     colors = []
     pfps = []
     inventory_file = f"{session['username']}.txt"
@@ -32,7 +31,7 @@ def profile():
             colors.append(itemList[2])
         if itemList[0] == "pfp":
             pfps.append(itemList[2])
-    return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
+    return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors)
 
 @bp.route("/swap_pfp", methods=['GET', 'POST'])
 @auth.login_required
