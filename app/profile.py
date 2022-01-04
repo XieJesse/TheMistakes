@@ -50,6 +50,7 @@ def swap_pfp():
         #edit inventory item order
         inventory_path = os.path.join(inventory_dir, inventory_file)
 
+        #rewrite inventory so that pfp is first
         with open(inventory_path, "r+") as inventory:
             allItems = inventory.readlines()
             index = 0

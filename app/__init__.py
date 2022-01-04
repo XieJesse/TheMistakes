@@ -54,7 +54,8 @@ def home():
         username = userData[0]
         balance = userData[2]
         wins = userData[3]
-        return render_template("home.html",wins=wins,balance=balance,username=username)
+        profile_picture = userData[5]
+        return render_template("home.html",profile_picture=profile_picture,wins=wins,balance=balance,username=username)
     else:
         return auth.login()
 

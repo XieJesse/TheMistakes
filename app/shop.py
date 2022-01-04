@@ -19,18 +19,38 @@ def shop():
         purchasedItem = request.form['itemName']
         # print(purchasedItem)
         c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-        userPoints = c.fetchone()
+        userData = c.fetchone()
         c.execute("SELECT * FROM SHOP WHERE NAME = (?)", (purchasedItem,))
         itemData = c.fetchone()
         # print(itemData)
         #check and subtract points
-        if userPoints[2] < itemData[3]:
+        if userData[2] < itemData[3]:
             return render_template("shop.html",error="You're broke")
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2]-itemData[3], session['username']))
+        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userData[2]-itemData[3], session['username']))
         #remove item from market
         c.execute("DELETE FROM SHOP WHERE NAME = (?)", (purchasedItem,))
-        #update inventory
+        # set pfp to default if it is the only one
+        if userData[5] == "https://media.istockphoto.com/vectors/messenger-profile-icon-on-white-isolated-background-vector-vector-id1316947194?b=1&k=20&m=1316947194&s=170667a&w=0&h=m1EuwYY4Z0R4X33z8rmQzLW2r_yx9SWVotY-wPfcA9s=" and itemData[0] == "pfp":
+            c.execute("UPDATE USERS SET PROFILE_PICTURE = (?) WHERE USERNAME = (?)", (itemData[2],session['username']))
+            #rewrite inventory so that pfp is first
+            inventory_path = "inventories/%s.txt" % session['username']
+            with open(inventory_path, "r+") as inventory:
+                allItems = inventory.readlines()
+                index = 0
+                for line in allItems:
+                    lineList = line.split("|")
+                    if lineList[2].strip() == itemData[2].strip():
+                        index = len(line)
+                        inventory.seek(0)
+                        inventory.write(line)
+                inventory.seek(index)
+                for line in allItems:
+                    lineList = line.split("|")
+                    if lineList[2].strip() != itemData[2].strip():
+                        inventory.write(line)
+
         d.commit()
+        #update inventory
         inventory_path = "inventories/%s.txt" % session['username']
         with open(inventory_path, "a") as inventory:
             inventory.write(""+itemData[0]+"|"+itemData[1]+"|"+itemData[2])
@@ -42,9 +62,9 @@ def shop():
     c.execute("SELECT * FROM SHOP")
     items = c.fetchall()
     c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-    userPoints = c.fetchone()
+    userData = c.fetchone()
     #render shop.html with parameters
-    return render_template("shop.html",items=items,balance=userPoints[2])
+    return render_template("shop.html",items=items,balance=userData[2])
 
 
 def refresh_shop():
