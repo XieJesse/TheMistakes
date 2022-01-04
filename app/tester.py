@@ -15,24 +15,28 @@ def test():
     # return render_template("setup.html", colors=test_rgb)
 
     # GAME TEST
-    # test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
+    test_cards = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
 
     # The first card within each sublist is displayed.
     # A list of cpus containing sublists for each CPU
     # Each sublist contains a list of card tuples, and a boolean 
     # The card tuples can be lists, but tuples help with visibility
     # The boolean tells whether the CPU hit (true) or stood (false) in the last round
-    # test_cpus = [
-    #     [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
-    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
-    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
-    #     [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
-    # ]
+    test_cpus = [
+        [[("A", "DIAMONDS"), ("3", "CLUBS")], False],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")], False],
+        [[("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")], True]
+    ]
 
     # Current round number
-    # test_round_no = 2
+    test_round_no = 2
 
-    # return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no)
+    # Card Colors
+    test_main = "255, 43, 107"
+    test_alt = "210, 240, 252"
+
+    return render_template("game.html", cards = test_cards, cpus = test_cpus, round_no = test_round_no, main_color = test_main, alt_color = test_alt)
     
     # LEADERBOARD TEST
     # d = db.get_db()
@@ -84,14 +88,14 @@ def test():
 
     # Result Test
 
-    test_hand = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
-    test_cpus = [
-        [("A", "DIAMONDS"), ("3", "CLUBS")],
-        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")],
-        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")],
-        [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")]
-    ]
-    test_values = [0,1,2,3,4]
+    # test_hand = [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")]
+    # test_cpus = [
+    #     [("A", "DIAMONDS"), ("3", "CLUBS")],
+    #     [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")],
+    #     [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"), ("3", "CLUBS")],
+    #     [("A", "DIAMONDS"), ("3", "CLUBS"), ("3", "CLUBS"),("3", "CLUBS"),("3", "CLUBS")]
+    # ]
+    # test_values = [0,1,2,3,4]
 
     # test_reward = {
     #     "data" : "245, 0, 139", 
@@ -99,13 +103,13 @@ def test():
     #     "name" : "Hot Pink"
     # }
 
-    test_reward = {
-        "data" : "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", 
-        "type" : "image",
-        "name" : ""
-    }
+    # test_reward = {
+    #     "data" : "https://cdn.discordapp.com/attachments/803649184887472148/926572649277181982/mogumo_1.1.png", 
+    #     "type" : "image",
+    #     "name" : ""
+    # }
 
-    return render_template("results.html", playerHand = test_hand, cpuHands = test_cpus, cpuValues=test_values, reward = test_reward)
+    # return render_template("results.html", playerHand = test_hand, cpuHands = test_cpus, cpuValues=test_values, reward = test_reward)
 
 if __name__ == "__main__":
     app.debug = True
