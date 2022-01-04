@@ -195,7 +195,7 @@ alifA -- 2021-12-31 21:43
 Finished all functionality associated with game.py
 
 alifA -- 2022-01-01 16:09
-Addes try - except error catch functionality to all functions that use the render_template() function
+Added try - except error catch functionality to all functions that use the render_template() function
 
 jesseX -- 2022-01-01 16:56
 Added route to profile picture with all required parameters.
@@ -218,6 +218,16 @@ Add results template. Displays player's final score & hand, reward, cpu scores &
 danielS -- 2022-01-03 00:14
 Updated initial user colors (added red). Fixed no placeholder profile picture being displayed on home screen 
 if the user doesn't have a profile picture.
+
+jesseX -- 2022-01-03 09:27
+Added beginnings of swap color/pfp and moved code to profile.py
+
+jesseX -- 2022-01-03 18:13
+Fixed issues with game.py and results.html
+- Incorrect data from session being passed into jinja
+- Removed giving items after winning game in HTML
+Added outcome and point reward parameters to routing
+Added method for point reward calculation
 
 danielS -- 2022-01-03 19:00
 Removed background-color change on different suit colors. Updated CPU deck layout. CPU hands

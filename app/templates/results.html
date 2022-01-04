@@ -60,21 +60,10 @@
         <h3>{{ msg }}</h3>
     </div>
     <div class="stat-summary">
+        <h3>{{ outcome }}</h3>
         <h3>Your hand's value: {{ playerValue }}</h3>
         <span class="point-reward">Points earned: {{ pointReward }}</span>
-        <div class="reward-container">
-            {% if reward.type == "color" %}
-                <span class="reward-label">You earned a color!</span>
-                <span class="color-label" style="color: rgb({{ reward.data }})">{{ reward.name }}</span>
-                <div class="swatch" style="background-color: rgb({{ reward.data }});"></div>
-            {% elif reward.type == "image" %}
-                <span class="reward-label">You earned a Profile Picture!</span>
-                <div class="image-container">
-                    <img src="{{ reward.data }}" alt="">
-                </div>
 
-            {% endif %}
-        </div>
         <a href="/play" class="play-button">Play Again</a>
     </div>
     <div class="more-info">
@@ -83,7 +72,7 @@
                 <span class="cpu-label">CPU {{ loop.index }}'s Hand</span>
                 <span class="cpu-score">Final Score: {{ cpuValues[loop.index0] }}</span>
                 <div class="card-container sm-card-container" style="width: {{ hand_width(sm_card_width, cpu|length, sm_card_overlap) }}">
-                    {% for value, suit in cpu %}
+                    {% for value, suit in cpu[0] %}
                         {{ card(value, suit, "small")}}
                     {% endfor %}
                 </div>

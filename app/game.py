@@ -110,24 +110,33 @@ def newGame(playerCount, drawnCards):
             session["formattedCards"].append([ [(drawnCards[i*2]["value"], drawnCards[i*2]["suit"]), (drawnCards[i*2+1]["value"], drawnCards[i*2+1]["suit"])], True ])
     #print(session["players"])
 
-def reward():
-    d = db.get_db()
-    c = d.cursor()
+def rewardCalc():
     payout = 50 #can change if needed (maybe make it random)
-    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
-    userPoints = c.fetchone()
     winner = blackjackWin([x[1] for x in session["players"]])
     # blackjackWin(list_of_player_scores)[1]
     if (winner[0] == True and winner[1] == True):
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + (1.5 * payout), session['username']))
+        payout = (1.5 * payout)
     elif winner[0] == True:
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + payout, session['username']))
+        payout = (1.0 * payout)
     elif winner[1] == True:
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] - (1.5 * payout), session['username']))
+        payout = (-1.5 * payout)
     else:
-        c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] - payout, session['username']))
+        payout = (-1.0 * payout)
+    return payout
 
-
+def reward():
+    d = db.get_db()
+    c = d.cursor()
+    payout = rewardCalc()
+    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+    userPoints = c.fetchone()
+    if payout > 0:
+        c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+        userData = c.fetchone()
+        wins = userData[3]
+        c.execute("UPDATE USERS SET WINS = (?) WHERE USERNAME = (?)", (wins+1, session['username']))
+    c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (userPoints[2] + payout, session['username']))
+    d.commit()
 
 
 def endGame():
@@ -155,8 +164,13 @@ def stay():
             else:
                 result += "Defeat"
             reward()
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
-            return render_template("results.html", msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] , cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
+            return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] , cpuValues = [x[1] for x in session["players"][1:]])
         else:
             session['players'][0][2] = "Stay"
             endGame()
@@ -165,14 +179,19 @@ def stay():
             if winner[1]:
                 result += "Blackjack "
             if winner[0]:
-                result += "Victory"
+                result += "Victory!"
             else:
                 result += "Defeat"
             reward()
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
-            return render_template("results.html", msg = "You stood!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
+            return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You stood!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
     except:
-        return render_template("login.html", error = "An issue occurred with ending the game")
+        return render_template("login.html", error = "An issue occurred with the hit button")
 
 @bp.route("/draw")
 def hit():
@@ -186,12 +205,17 @@ def hit():
             if winner[1]:
                 result += "Blackjack "
             if winner[0]:
-                result += "Victory"
+                result += "Victory!"
             else:
                 result += "Defeat"
             reward()
+            cpuHands = session["formattedCards"][1:]
+            for hand in cpuHands:
+                hand.remove(False)
+            print(cpuHands)
+            print(cpuHands[0])
             # cards and values are debugger jinja variables
-            return render_template("results.html", msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = session["formattedCards"][1:], playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]], outcome = result)
+            return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
         else:
             session["roundNumber"] += 1
             drawnCard = drawCards(1)
