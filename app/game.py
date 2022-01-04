@@ -43,8 +43,8 @@ def play():
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
     try:
-        mainCol = "255, 43, 107"
-        altCol = "0, 0, 0"
+        session["mainCol"] = "255, 43, 107"
+        session["altCol"] = "0, 0, 0"
         '''
         # outlining concerns: newDeck() is run once per session. Here, it is run so that we will a deck ready for newGame to not throw an error.
         # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
@@ -58,8 +58,8 @@ def initialSetup():
         players = 0
         if request.method == 'POST':
             players = int(request.form['cpu_number']) + 1
-            mainCol = request.form["mainColor"]
-            altCol = request.form["altColor"]
+            session["mainCol"] = request.form["mainColor"]
+            session["altCol"] = request.form["altColor"]
         cards = drawCards(players * 2)
         newGame(players, cards)
         #playerCards = []
@@ -69,7 +69,7 @@ def initialSetup():
         #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
         session["roundNumber"] = 1
 
-        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = mainCol, alt_color = altCol)
+        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = session["mainCol"], alt_color = session["altCol"])
     except:
         return render_template("login.html", error = "An issue has occurred setting up the game Blackjack")
 
@@ -221,8 +221,6 @@ def hit():
             # cards and values are debugger jinja variables
             return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
         else:
-            mainCol = "255, 43, 107"
-            altCol = "0, 0, 0"
             session["roundNumber"] += 1
             drawnCard = drawCards(1)
             session['players'][0][0].append(drawnCard[0]["code"])
@@ -232,7 +230,7 @@ def hit():
             session["players"][0][2] = "Hit"
             # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
             cpuBehavior(session["players"])
-            return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = mainCol, alt_color = altCol)
+            return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = session["mainCol"], alt_color = session["altCol"])
     except:
         return render_template("login.html", error = "An issue occurred with the hit button")
 
