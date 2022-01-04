@@ -10,7 +10,12 @@ Daniel: Manage front end development, create easy to use interface
 Raymond: Manage API data retrieval, ensure proper utilization of APIs  
 
 ## Project Summary  
-Our web application allows users to create an account and earn points / items through playing blackjack. Points, which are earned from winning games of blackjack, may be used to purchase items from the shop that are available to the user. These solely cosmetic items that will decorate their profile and ranking on the leaderboard, including but not limited to name color and profile picture. The player will be randomly awarded some of these cosmetics as they win a game of blackjack. The leaderboard will rank and display all players based on the number of wins they have.
+Our web application allows users to create an account and earn points / items through playing blackjack. Points, which are earned from winning games of blackjack, may be used to purchase items from the shop that is available to the user. These solely cosmetic items, including card color and profile picture, may decorate their profiles and rankings on the leaderboard. The leaderboard will rank and display all players based on the number of wins they have. 
+
+## Cards of APIs used
+- [Deck of Cards](https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_DeckofCards.md)  
+- [Color API](https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_Color.md)  
+- [Lorem Picsum](https://github.com/stuy-softdev/notes-and-code/blob/main/api_kb/411_on_LoremPicsum.md)  
 
 ## Install and Launch Instructions
 Clone the repository in your desired destination:  
