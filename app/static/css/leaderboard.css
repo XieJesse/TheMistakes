@@ -34,7 +34,7 @@
 /* Rankings Styling */
 
 .row > div {
-    padding: 8px; 
+    padding: 8px;
 }
 
 .rank-num {
@@ -79,6 +79,7 @@ img.profile-picture {
     object-fit: scale-down;
     width: 100%;
     height: 100%;
+    object-fit: cover;
 }
 
 .player-name {

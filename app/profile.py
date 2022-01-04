@@ -59,7 +59,6 @@ def swap_pfp():
                     index = len(line)
                     inventory.seek(0)
                     inventory.write(line)
-                    print("fkndsdnandajn")
             inventory.seek(index)
             for line in allItems:
                 lineList = line.split("|")
