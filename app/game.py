@@ -15,7 +15,8 @@ bp = Blueprint('game', __name__)
 # Resolved: Make sure that, after clicking Stay or becoming Bust, players are rewarded or lose money accordingly.
 # Resolved: Display the player score and the scores of each cpu on the results page, as well as the cards of the players and the cpus on the results page.
 """
-
+mainCol = "255, 43, 107"
+altCol = "210, 240, 252"
 @bp.route("/play",methods=['GET', 'POST'])
 @auth.login_required
 def play():
@@ -57,6 +58,8 @@ def initialSetup():
         players = 0
         if request.method == 'POST':
             players = int(request.form['cpu_number']) + 1
+            mainCol = request.form["mainColor"]
+            altCol = request.form["altColor"]
         cards = drawCards(players * 2)
         newGame(players, cards)
         #playerCards = []
@@ -65,7 +68,8 @@ def initialSetup():
         #for i in range(players):
         #    playerCards.append([ [cards[i*2]["value"], cards[i*2]["suit"]],  [cards[i*2+1]["value"], cards[i*2+1]["suit"]] ])
         session["roundNumber"] = 1
-        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+
+        return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = mainCol, alt_color = altCol)
     except:
         return render_template("login.html", error = "An issue has occurred setting up the game Blackjack")
 
@@ -226,7 +230,7 @@ def hit():
             session["players"][0][2] = "Hit"
             # cpuBehavior will alter the session variables players and formattedCards accordingly, based on card scores taken from the players session variable
             cpuBehavior(session["players"])
-            return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"])
+            return render_template("game.html", cards = session["formattedCards"][0], cpus = session["formattedCards"][1:], round_no = session["roundNumber"], main_color = mainCol, alt_color = altCol)
     except:
         return render_template("login.html", error = "An issue occurred with the hit button")
 
