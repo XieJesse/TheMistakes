@@ -15,8 +15,10 @@
 .cpu-container {
     grid-area: cpu;
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: space-around;
     padding: 20px;
+    gap: 20px;
     height: max-content;
 }
 

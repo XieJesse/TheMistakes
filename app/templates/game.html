@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="../static/css/card.css">
 <link rel="stylesheet" href="../static/css/game.css">
 
+<style>
+    :root {
+        --suit-main: rgb({{ main_color }});
+        --suit-alt: rgb({{ alt_color }});
+    }
+</style>
+
 {% endblock %}
 
 {% macro card(value, suit, size, transition) -%}

@@ -216,7 +216,7 @@ danielS -- 2022-01-02 23:59
 Add results template. Displays player's final score & hand, reward, cpu scores & hands.
 
 danielS -- 2022-01-03 00:14
-Updated initial user colors (added red). Fixed no placeholder profile picture being displayed on home screen
+Updated initial user colors (added red). Fixed no placeholder profile picture being displayed on home screen 
 if the user doesn't have a profile picture.
 
 jesseX -- 2022-01-03 09:27
@@ -228,3 +228,7 @@ Fixed issues with game.py and results.html
 - Removed giving items after winning game in HTML
 Added outcome and point reward parameters to routing
 Added method for point reward calculation
+
+danielS -- 2022-01-03 19:00
+Removed background-color change on different suit colors. Updated CPU deck layout. CPU hands
+now wrap instead of staying on one line.
