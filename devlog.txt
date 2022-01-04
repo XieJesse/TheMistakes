@@ -233,5 +233,16 @@ danielS -- 2022-01-03 19:00
 Removed background-color change on different suit colors. Updated CPU deck layout. CPU hands
 now wrap instead of staying on one line.
 
+jesseX -- 2022-01-03 20:11
+Fixed issues with displaying cpu hands in results page.
+Passed profile pictures to leaderboard and home route.
+Added swap pfp option to profile page.
+Added proper image cropping to profile pictures.
+
 alifA -- 2022-01-04 08:58
 Used session variables to store and pass colors to functions that render the game.html code.
+
+jesseX -- 2022-01-04 09:28
+Removed unneccessary parameters in users database.
+
+jesseX -- 2022-01-03 20:11
