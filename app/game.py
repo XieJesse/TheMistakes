@@ -15,8 +15,6 @@ bp = Blueprint('game', __name__)
 # Resolved: Make sure that, after clicking Stay or becoming Bust, players are rewarded or lose money accordingly.
 # Resolved: Display the player score and the scores of each cpu on the results page, as well as the cards of the players and the cpus on the results page.
 """
-mainCol = "255, 43, 107"
-altCol = "210, 240, 252"
 @bp.route("/play",methods=['GET', 'POST'])
 @auth.login_required
 def play():
@@ -45,6 +43,8 @@ def play():
 @bp.route("/setup", methods=['GET','POST'])
 def initialSetup():
     try:
+        mainCol = "255, 43, 107"
+        altCol = "0, 0, 0"
         '''
         # outlining concerns: newDeck() is run once per session. Here, it is run so that we will a deck ready for newGame to not throw an error.
         # Whenever we want to start a new game, though, we want to return all cards, shuffle, then take them all back. We don't want to call initialSetup.
@@ -221,6 +221,8 @@ def hit():
             # cards and values are debugger jinja variables
             return render_template("results.html", outcome = result, pointReward = rewardCalc(), msg = "You busted!", playerHand = session["formattedCards"][0], cpuHands = cpuHands, playerValue = [session["players"][0][1]] ,cpuValues = [x[1] for x in session["players"][1:]])
         else:
+            mainCol = "255, 43, 107"
+            altCol = "0, 0, 0"
             session["roundNumber"] += 1
             drawnCard = drawCards(1)
             session['players'][0][0].append(drawnCard[0]["code"])
