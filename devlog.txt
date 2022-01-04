@@ -244,5 +244,3 @@ Used session variables to store and pass colors to functions that render the gam
 
 jesseX -- 2022-01-04 09:28
 Removed unneccessary parameters in users database.
-
-jesseX -- 2022-01-03 20:11
