@@ -90,7 +90,7 @@ def register():
             inventory.write("profile_background|white|0,0,100")
             inventory.write("\n")
 
-        userInfo = [username,password,10000,0,0,"","#000000","#FFFFFF", inventory_file]
+        userInfo = [username,password,10000,0,0,"https://media.istockphoto.com/vectors/messenger-profile-icon-on-white-isolated-background-vector-vector-id1316947194?b=1&k=20&m=1316947194&s=170667a&w=0&h=m1EuwYY4Z0R4X33z8rmQzLW2r_yx9SWVotY-wPfcA9s=","#000000","#FFFFFF", inventory_file]
         c.execute("INSERT INTO USERS VALUES(?,?,?,?,?,?,?,?,?)", userInfo)
         d.commit()
 

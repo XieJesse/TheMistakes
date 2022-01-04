@@ -16,5 +16,5 @@ def leaderboard():
     players = []
     for user in users:
         # add username, wins, points to list
-        players.append([user[0],user[3],user[2]])
+        players.append([user[0],user[3],user[2],user[5]])
     return render_template("leaderboard.html",players=players)

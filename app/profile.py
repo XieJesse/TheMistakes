@@ -32,14 +32,38 @@ def profile():
             colors.append(itemList[2])
         if itemList[0] == "pfp":
             pfps.append(itemList[2])
-    print(pfps)
     return render_template("profile.html",username=session['username'],balance=balance,wins=wins,picture_list=pfps,color_list=colors,current_color=currColor)
 
-@bp.route("/swap_color", methods=['GET', 'POST'])
+@bp.route("/swap_pfp", methods=['GET', 'POST'])
 @auth.login_required
-def swap_color():
-    d = get_db()
-    c = d.cursor()
-    c.execute("UPDATE USERS SET POINTS = (?) WHERE USERNAME = (?)", (session['username'],))
+def swap_pfp():
+    if request.method == 'POST':
+        newImg = request.form['img_url']
+        d = get_db()
+        c = d.cursor()
+        # set pfp in database
+        c.execute("UPDATE USERS SET PROFILE_PICTURE = (?) WHERE USERNAME = (?)", (newImg,session['username']))
+        d.commit()
+        inventory_file = f"{session['username']}.txt"
+        inventory_dir = "inventories"
 
-    profile()
+        #edit inventory item order
+        inventory_path = os.path.join(inventory_dir, inventory_file)
+
+        with open(inventory_path, "r+") as inventory:
+            allItems = inventory.readlines()
+            index = 0
+            for line in allItems:
+                lineList = line.split("|")
+                if lineList[2].strip() == newImg.strip():
+                    index = len(line)
+                    inventory.seek(0)
+                    inventory.write(line)
+                    print("fkndsdnandajn")
+            inventory.seek(index)
+            for line in allItems:
+                lineList = line.split("|")
+                if lineList[2].strip() != newImg.strip():
+                    inventory.write(line)
+
+    return profile()
