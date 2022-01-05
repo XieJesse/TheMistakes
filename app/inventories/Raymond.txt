@@ -1,0 +1,14 @@
+card_color|Black|0,0,0
+card_color|Red|238, 56, 56
+card_color|Purple Plum|167,72,179
+pfp|Image 502|https://picsum.photos/id/502/1920/1280
+card_color|Don Juan|90,77,89
+pfp|Image 621|https://picsum.photos/id/621/2300/1533
+card_color|Cyan / Aqua|12,234,252
+pfp|Image 935|https://picsum.photos/id/935/4608/3072
+card_color|Medium Purple|141,126,224
+pfp|Image 669|https://picsum.photos/id/669/4869/3456
+card_color|Key Lime Pie|178,222,41
+pfp|Image 84|https://picsum.photos/id/84/1280/848
+card_color|Green Yellow|155,255,37
+pfp|Image 837|https://picsum.photos/id/837/5184/3456

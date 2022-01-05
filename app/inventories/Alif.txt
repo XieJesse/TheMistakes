@@ -1,0 +1,14 @@
+pfp|Image 867|https://picsum.photos/id/867/4288/2848
+card_color|Black|0,0,0
+card_color|Red|238, 56, 56
+card_color|Cinnamon Satin|210,93,114
+pfp|Image 302|https://picsum.photos/id/302/1728/1080
+card_color|Pastel Green|89,230,89
+pfp|Image 23|https://picsum.photos/id/23/3887/4899
+card_color|Blueberry|121,71,252
+card_color|Lavender Pink|250,154,203
+pfp|Image 81|https://picsum.photos/id/81/5755/3741
+card_color|Blue Bell|144,141,201
+pfp|Image 169|https://picsum.photos/id/169/2500/1662
+card_color|Mardi Gras|64,0,68
+pfp|Image 781|https://picsum.photos/id/781/4858/3238

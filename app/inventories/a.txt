@@ -1,2 +1,0 @@
-card_color/black/0,0,0
-profile_background/white/0,0,100

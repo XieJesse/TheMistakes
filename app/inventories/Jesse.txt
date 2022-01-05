@@ -1,0 +1,25 @@
+pfp|Image 931|https://picsum.photos/id/931/3000/1987
+card_color|Black|0,0,0
+card_color|Red|238, 56, 56
+pfp|Image 959|https://picsum.photos/id/959/3699/2466
+card_color|Green|3,229,19
+pfp|Image 166|https://picsum.photos/id/166/1280/720
+card_color|Asparagus|128,143,78
+card_color|Green Pea|38,107,60
+pfp|Image 383|https://picsum.photos/id/383/4288/2848
+card_color|Dallas|94,88,35
+pfp|Image 559|https://picsum.photos/id/559/4288/2848
+card_color|Royal Blue|69,65,239
+pfp|Image 270|https://picsum.photos/id/270/5072/3368
+card_color|Pink Flamingo|242,66,249
+pfp|Image 766|https://picsum.photos/id/766/7360/4912
+card_color|Viking|91,206,218
+pfp|Image 345|https://picsum.photos/id/345/5616/3744
+pfp|Image 617|https://picsum.photos/id/617/2509/1673
+card_color|Seance|138,18,167
+card_color|Red Violet|208,8,148
+pfp|Image 388|https://picsum.photos/id/388/4288/2848
+card_color|Chateau Green|66,179,102
+pfp|Image 270|https://picsum.photos/id/270/5072/3368
+card_color|Science Blue|8,110,200
+pfp|Image 740|https://picsum.photos/id/740/3632/5075
