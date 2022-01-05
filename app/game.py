@@ -115,17 +115,17 @@ def newGame(playerCount, drawnCards):
     #print(session["players"])
 
 def rewardCalc():
-    payout = 50 #can change if needed (maybe make it random)
+    payout = 70 #can change if needed (maybe make it random)
     winner = blackjackWin([x[1] for x in session["players"]])
     # blackjackWin(list_of_player_scores)[1]
     if (winner[0] == True and winner[1] == True):
-        payout = (1.5 * payout)
+        payout = 100
     elif winner[0] == True:
-        payout = (1.0 * payout)
+        payout = 70
     elif winner[1] == True:
-        payout = (-0.5 * payout)
+        payout = 0
     else:
-        payout = (-0.2 * payout)
+        payout = 0
     return payout
 
 def reward():
