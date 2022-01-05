@@ -84,6 +84,8 @@ def refresh_shop():
         for i in range(0,3):
             randColor = randomColor()
             if randColor[0] == "error":
+                c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+                userData = c.fetchone()
                 return render_template("shop.html",error="There was an error with the Color API",balance=userData[2])
             # will generate random color based on day
             itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
@@ -93,6 +95,8 @@ def refresh_shop():
 
             randPFP = randomPFP()
             if randPFP[0] == "error":
+                c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+                userData = c.fetchone()
                 return render_template("shop.html",error="There was an error with the Lorem Picsum API",balance=userData[2])
             # will generate random pfp based on day
             itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
@@ -109,6 +113,8 @@ def refresh_shop():
             for i in range(0,2):
                 randColor = randomColor()
                 if randColor[0] == "error":
+                    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+                    userData = c.fetchone()
                     return render_template("shop.html",error="There was an error with the Color API",balance=userData[2])
                 #will generate random color based on day
                 itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
@@ -118,6 +124,8 @@ def refresh_shop():
 
                 randPFP = randomPFP()
                 if randPFP[0] == "error":
+                    c.execute("SELECT * FROM USERS WHERE USERNAME = (?)", (session['username'],))
+                    userData = c.fetchone()
                     return render_template("shop.html",error="There was an error with the Lorem Picsum API",balance=userData[2])
                 # will generate random pfp based on day
                 itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,250),today.strftime("%m/%d/%y")]
