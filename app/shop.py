@@ -78,8 +78,10 @@ def refresh_shop():
     existing_item = c.fetchone()
     if not existing_item:
         # add if table is empty
-        for i in range(0,2):
+        for i in range(0,3):
             randColor = randomColor()
+            if randColor[0] == "error":
+                return render_template("shop.html",error="There was an error with the Color API",balance=userData[2])
             # will generate random color based on day
             itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
             # print(itemInfo)
@@ -87,6 +89,8 @@ def refresh_shop():
             c.execute(addItem,itemInfo)
 
             randPFP = randomPFP()
+            if randPFP[0] == "error":
+                return render_template("shop.html",error="There was an error with the Lorem Picsum API",balance=userData[2])
             # will generate random pfp based on day
             itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
             # print(itemInfo)
@@ -101,6 +105,8 @@ def refresh_shop():
 
             for i in range(0,2):
                 randColor = randomColor()
+                if randColor[0] == "error":
+                    return render_template("shop.html",error="There was an error with the Color API",balance=userData[2])
                 #will generate random color based on day
                 itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
                 # print(itemInfo)
@@ -108,42 +114,50 @@ def refresh_shop():
                 c.execute(addItem,itemInfo)
 
                 randPFP = randomPFP()
+                if randPFP[0] == "error":
+                    return render_template("shop.html",error="There was an error with the Lorem Picsum API",balance=userData[2])
                 # will generate random pfp based on day
-                itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
+                itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,250),today.strftime("%m/%d/%y")]
                 # print(itemInfo)
                 addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
                 c.execute(addItem,itemInfo)
                 d.commit()
 
 def randomColor():
-    hexList = "0123456789ABCDEF"
-    randomColor = hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]
-    # opens up API data (API data being a randomly generated color hex value)
-    req = urllib.request.Request('https://www.thecolorapi.com/id?hex='+randomColor, headers={'User-Agent': 'Mozilla/5.0'}) #change deck count for more decks of 52
-    data = urllib.request.urlopen(req)
-    # reads API data into variable (comes in as JSON data)
-    response = data.read()
-    # converts JSON data to python dictionary
-    response_info = json.loads(response)
-    # sets a variable dictionary with color data
-    color = response_info["name"]
-    RGB = response_info["rgb"]
-    # set variable for rgb values
-    colorName = color['value']
-    # set variable for color name
-    colorRGB = str(RGB["r"])+","+str(RGB["g"])+","+str(RGB["b"])
-    return [colorName,colorRGB]
+    try:
+        hexList = "0123456789ABCDEF"
+        randomColor = hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]+hexList[random.randint(0,15)]
+        # opens up API data (API data being a randomly generated color hex value)
+        req = urllib.request.Request('https://www.thecolorapi.com/id?hex='+randomColor, headers={'User-Agent': 'Mozilla/5.0'}) #change deck count for more decks of 52
+        data = urllib.request.urlopen(req)
+        # reads API data into variable (comes in as JSON data)
+        response = data.read()
+        # converts JSON data to python dictionary
+        response_info = json.loads(response)
+        # sets a variable dictionary with color data
+        color = response_info["name"]
+        RGB = response_info["rgb"]
+        # set variable for rgb values
+        colorName = color['value']
+        # set variable for color name
+        colorRGB = str(RGB["r"])+","+str(RGB["g"])+","+str(RGB["b"])
+        return [colorName,colorRGB]
+    except:
+        return ["error","error"]
 
 def randomPFP():
-    # opens up API data (API data being a randomly generated image from api)
-    req = urllib.request.Request('https://picsum.photos/v2/list?limit=1&page='+str(random.randint(0,993)), headers={'User-Agent': 'Mozilla/5.0'})
-    data = urllib.request.urlopen(req)
-    # reads API data into variable (comes in as JSON data)
-    response = data.read()
-    # converts JSON data to python dictionary
-    response_info = json.loads(response)
-    name = "Image "+str(response_info[0]["id"])
-    # set variable for image "name"
-    url = response_info[0]["download_url"]
-    # set variable for image url
-    return [name,url]
+    try:
+        # opens up API data (API data being a randomly generated image from api)
+        req = urllib.request.Request('https://picsum.photos/v2/list?limit=1&page='+str(random.randint(0,993)), headers={'User-Agent': 'Mozilla/5.0'})
+        data = urllib.request.urlopen(req)
+        # reads API data into variable (comes in as JSON data)
+        response = data.read()
+        # converts JSON data to python dictionary
+        response_info = json.loads(response)
+        name = "Image "+str(response_info[0]["id"])
+        # set variable for image "name"
+        url = response_info[0]["download_url"]
+        # set variable for image url
+        return [name,url]
+    except:
+        return ["error","error"]
