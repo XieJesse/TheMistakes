@@ -123,9 +123,9 @@ def rewardCalc():
     elif winner[0] == True:
         payout = (1.0 * payout)
     elif winner[1] == True:
-        payout = (-1.5 * payout)
+        payout = (-0.5 * payout)
     else:
-        payout = (-1.0 * payout)
+        payout = (-0.2 * payout)
     return payout
 
 def reward():

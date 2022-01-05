@@ -32,7 +32,7 @@ def shop():
         #remove item from market
         c.execute("DELETE FROM SHOP WHERE NAME = (?)", (purchasedItem,))
         # set pfp to default if it is the only one
-        if userData[5] == "https://media.istockphoto.com/vectors/messenger-profile-icon-on-white-isolated-background-vector-vector-id1316947194?b=1&k=20&m=1316947194&s=170667a&w=0&h=m1EuwYY4Z0R4X33z8rmQzLW2r_yx9SWVotY-wPfcA9s=" and itemData[0] == "pfp":
+        if userData[4] == "https://media.istockphoto.com/vectors/messenger-profile-icon-on-white-isolated-background-vector-vector-id1316947194?b=1&k=20&m=1316947194&s=170667a&w=0&h=m1EuwYY4Z0R4X33z8rmQzLW2r_yx9SWVotY-wPfcA9s=" and itemData[0] == "pfp":
             c.execute("UPDATE USERS SET PROFILE_PICTURE = (?) WHERE USERNAME = (?)", (itemData[2],session['username']))
             #rewrite inventory so that pfp is first
             inventory_path = "inventories/%s.txt" % session['username']

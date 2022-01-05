@@ -8,7 +8,6 @@ create_users = '''CREATE TABLE IF NOT EXISTS USERS(
                 PASSWORD TEXT,
                 POINTS INTEGER,
                 WINS INTEGER,
-                LOSSES INTEGER,
                 PROFILE_PICTURE TEXT,
                 INVENTORY TEXT)'''
 
