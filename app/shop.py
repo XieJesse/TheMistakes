@@ -88,7 +88,7 @@ def refresh_shop():
                 userData = c.fetchone()
                 return render_template("shop.html",error="There was an error with the Color API",balance=userData[2])
             # will generate random color based on day
-            itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,300),today.strftime("%m/%d/%y")]
+            itemInfo = ["card_color",randColor[0],randColor[1],random.randint(100,250),today.strftime("%m/%d/%y")]
             # print(itemInfo)
             addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
             c.execute(addItem,itemInfo)
@@ -99,7 +99,7 @@ def refresh_shop():
                 userData = c.fetchone()
                 return render_template("shop.html",error="There was an error with the Lorem Picsum API",balance=userData[2])
             # will generate random pfp based on day
-            itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,300),today.strftime("%m/%d/%y")]
+            itemInfo = ["pfp",randPFP[0],randPFP[1],random.randint(100,250),today.strftime("%m/%d/%y")]
             # print(itemInfo)
             addItem = "INSERT INTO SHOP VALUES(?,?,?,?,?)"
             c.execute(addItem,itemInfo)

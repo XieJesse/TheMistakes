@@ -243,7 +243,14 @@ alifA -- 2022-01-04 08:58
 Used session variables to store and pass colors to functions that render the game.html code.
 
 jesseX -- 2022-01-04 09:28
-Removed unneccessary parameters in users database.
+Removed unnecessary parameters in users database.
 
-raymondY -2022-01-04 10:45
+raymondY -- 2022-01-04 22:45
 leaderboard now properly updates and sorts by wins.
+
+jesseX -- 2022-01-04 23:22
+Added try except blocks for api calls in shop.py
+Edited reward and shop costs
+Added demo database and files
+Edited design doc to reflect concise database (removed unnecessary parameters like losses in users)
+Fixed bugs created by changes above
