@@ -244,3 +244,6 @@ Used session variables to store and pass colors to functions that render the gam
 
 jesseX -- 2022-01-04 09:28
 Removed unneccessary parameters in users database.
+
+raymondY -2022-01-04 10:45
+leaderboard now properly updates and sorts by wins.
