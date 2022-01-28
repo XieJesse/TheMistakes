@@ -2,7 +2,7 @@ from flask import Flask, Blueprint, request, session, render_template, redirect,
 from functools import wraps
 import os, sqlite3, json, urllib
 
-from db import get_db
+from app.db import get_db
 
 bp = Blueprint('auth', __name__)
 
