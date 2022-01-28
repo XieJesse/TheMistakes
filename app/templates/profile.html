@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}My Profile{% endblock %}
 {% block expand_head %}
-<link rel="stylesheet" href="../static/css/profile.css">
+<link rel="stylesheet" href="{{ url_for('static', 'css/profile.css') }}">
 {% endblock %}
 
 {% block content %}
