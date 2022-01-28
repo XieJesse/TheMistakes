@@ -1,0 +1,4 @@
+card_color/black/0,0,0
+profile_background/white/0,0,100
+card_color/Screamin' Green/63,246,97
+card_color/Salem/4,153,58

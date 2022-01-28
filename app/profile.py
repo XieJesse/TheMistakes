@@ -1,8 +1,8 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import os, sqlite3, json, urllib
 import random
-from app import auth
-from app.db import get_db
+import auth
+from db import get_db
 
 bp = Blueprint('profile', __name__)
 

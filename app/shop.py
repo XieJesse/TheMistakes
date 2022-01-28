@@ -1,9 +1,9 @@
 from flask import Flask, Blueprint, request, session, render_template, redirect, g
 import os, sqlite3, json, urllib
 from datetime import date
-from app import auth
+import auth
 import random
-from app.db import get_db
+from db import get_db
 bp = Blueprint('shop', __name__)
 
 today = date.today()
